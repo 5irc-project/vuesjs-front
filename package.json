@@ -1,0 +1,40 @@
+{
+	"name": "music-streaming",
+	"version": "1.0.0",
+	"scripts": {
+		"serve": "vue-cli-service serve",
+		"build": "vue-cli-service build",
+		"lint": "vue-cli-service lint",
+		"test:unit": "vue-cli-service test:unit"
+	},
+	"devDependencies": {
+		"@babel/eslint-parser": "^7.19.1",
+		"@vue/cli-plugin-babel": "^5.0.8",
+		"@vue/cli-plugin-eslint": "^5.0.8",
+		"@vue/cli-plugin-router": "^5.0.8",
+		"@vue/cli-service": "^5.0.8",
+		"@vue/compiler-sfc": "^3.0.0",
+		"eslint": "^8.30.0",
+		"eslint-plugin-vue": "^8.7.1",
+		"sass": "^1.57.1",
+		"sass-loader": "^12.6.0"
+	},
+	"dependencies": {
+		"@vueuse/core": "^9.8.2",
+		"axios": "^0.27.2",
+		"chart.js": "^3.9.1",
+		"core-js": "^3.26.1",
+		"gsap": "^3.11.4",
+		"moment": "^2.29.4",
+		"pinia": "^2.0.28",
+		"primeflex": "^3.3.0",
+		"primeicons": "^5.0.0",
+		"primevue": "^3.21.0",
+		"prismjs": "^1.29.0",
+		"vue": "^3.2.13",
+		"vue-i18n": "^9.2.2",
+		"vue-router": "^4.1.6",
+		"vue-uuid": "^3.0.0",
+		"vue3-touch-events": "^4.1.0"
+	}
+}

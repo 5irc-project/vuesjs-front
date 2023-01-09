@@ -1,0 +1,45 @@
+.layout-footer {
+  transition: margin-left $transition-duration;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.25rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--surface-border);
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+
+    @media screen and (min-width: 768px) {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      li {
+        display: flex;
+        align-items: center;
+        padding: 0;
+
+        &:not(:first-child)::before {
+          content: "";
+          display: block;
+          width: 0.5rem;
+          height: 1px;
+          margin: 0 1.25rem;
+          background-color: var(--text-color);
+        }
+      }
+
+      a {
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

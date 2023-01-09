@@ -1,0 +1,456 @@
+/* General */
+$font-size: 16px;
+$layout-border-radius: 0;
+$transition-duration: 0.2s;
+
+$blue: #0f61dc;
+$green: #0bcb74;
+$yellow: #f8b633;
+$cyan: #06b6d4;
+$pink: #ec4899;
+$indigo: #6366f1;
+$teal: #14b8a6;
+$orange: #f08b22;
+$bluegray: #64748b;
+$purple: #a855f7;
+$red: #f46768;
+
+$danger: $red;
+$info: $blue;
+$success: $green;
+$warning: $yellow;
+
+$white: #fff;
+$black: #000;
+
+$surface-a: #ffffff;
+$surface-b: #131930;
+$surface-c: #51546e;
+$surface-d: #e5e7eb;
+$surface-e: #ffffff;
+$surface-f: #ffffff;
+$surface-0: #ffffff;
+
+$surface-50: #f9fafb;
+$surface-100: #e5e5e5;
+$surface-200: #cccccc;
+$surface-300: #b3b3b3;
+$surface-400: #999999;
+$surface-500: #808080;
+$surface-600: #666666;
+$surface-700: #4d4d4d;
+$surface-800: #333333;
+$surface-900: #1a1a1a;
+
+$text-color: #dddfe5;
+$text-color-secondary: #51546e;
+$primary-color: #dddfe5;
+$primary-color-text: #ffffff;
+
+$accent-color: $orange;
+$accent-color-text: $white;
+$accent-color-highlight: #c06f1b;
+$accent-color-selected: #f3a24e;
+
+$primary-color-highlight: mix($white, $primary-color, 20%);
+$primary-color-selected: mix($black, $primary-color, 30%);
+$primary-color-text-selected: #eef2ff;
+
+$secondary-color: #ff008d;
+
+$border-color: $surface-100;
+$border-color-invalid: $red;
+
+$gray-50: $surface-50;
+$gray-100: $surface-100;
+$gray-200: $surface-200;
+$gray-300: $surface-300;
+$gray-400: $surface-400;
+$gray-500: $surface-500;
+$gray-600: $surface-600;
+$gray-700: $surface-700;
+$gray-800: $surface-800;
+$gray-900: $surface-900;
+
+$content-padding: 1.25rem;
+$inline-spacing: 0.5rem;
+$border-radius: 0.25rem;
+$border-radius-lg: 0.625rem;
+$border-radius-rounded: 50%;
+
+$surface-ground: $surface-b;
+$surface-section: $surface-a;
+$surface-card: $surface-e;
+$surface-overlay: $surface-f;
+$surface-border: $surface-d;
+$surface-hover: $surface-c;
+
+$focus-ring: 0 0 0 1px $primary-color;
+$maskbg: rgba($black, 0.4);
+
+$primary-50: mix($white, $primary-color, 90%);
+$primary-100: mix($white, $primary-color, 80%);
+$primary-200: mix($white, $primary-color, 70%);
+$primary-300: mix($white, $primary-color, 60%);
+$primary-400: mix($white, $primary-color, 40%);
+$primary-500: mix($white, $primary-color, 30%);
+$primary-600: mix($white, $primary-color, 20%);
+$primary-700: $primary-color;
+$primary-800: mix($black, $primary-color, 30%);
+$primary-900: mix($black, $primary-color, 60%);
+
+$blue-50: mix($white, $blue, 90%);
+$blue-100: mix($white, $blue, 80%);
+$blue-200: mix($white, $blue, 60%);
+$blue-300: mix($white, $blue, 40%);
+$blue-400: mix($white, $blue, 20%);
+$blue-500: $blue;
+$blue-600: mix($black, $blue, 20%);
+$blue-700: mix($black, $blue, 40%);
+$blue-800: mix($black, $blue, 60%);
+$blue-900: mix($black, $blue, 80%);
+
+$green-50: mix($white, $green, 90%);
+$green-100: mix($white, $green, 80%);
+$green-200: mix($white, $green, 60%);
+$green-300: mix($white, $green, 40%);
+$green-400: mix($white, $green, 20%);
+$green-500: $green;
+$green-600: mix($black, $green, 20%);
+$green-700: mix($black, $green, 40%);
+$green-800: mix($black, $green, 60%);
+$green-900: mix($black, $green, 80%);
+
+$yellow-50: mix($white, $yellow, 90%);
+$yellow-100: mix($white, $yellow, 80%);
+$yellow-200: mix($white, $yellow, 60%);
+$yellow-300: mix($white, $yellow, 40%);
+$yellow-400: mix($white, $yellow, 20%);
+$yellow-500: $yellow;
+$yellow-600: mix($black, $yellow, 20%);
+$yellow-700: mix($black, $yellow, 40%);
+$yellow-800: mix($black, $yellow, 60%);
+$yellow-900: mix($black, $yellow, 80%);
+
+$cyan-50: mix($white, $cyan, 90%);
+$cyan-100: mix($white, $cyan, 80%);
+$cyan-200: mix($white, $cyan, 60%);
+$cyan-300: mix($white, $cyan, 40%);
+$cyan-400: mix($white, $cyan, 20%);
+$cyan-500: $cyan;
+$cyan-600: mix($black, $cyan, 20%);
+$cyan-700: mix($black, $cyan, 40%);
+$cyan-800: mix($black, $cyan, 60%);
+$cyan-900: mix($black, $cyan, 80%);
+
+$pink-50: mix($white, $pink, 90%);
+$pink-100: mix($white, $pink, 80%);
+$pink-200: mix($white, $pink, 60%);
+$pink-300: mix($white, $pink, 40%);
+$pink-400: mix($white, $pink, 20%);
+$pink-500: $pink;
+$pink-600: mix($black, $pink, 20%);
+$pink-700: mix($black, $pink, 40%);
+$pink-800: mix($black, $pink, 60%);
+$pink-900: mix($black, $pink, 80%);
+
+$indigo-50: mix($white, $indigo, 90%);
+$indigo-100: mix($white, $indigo, 80%);
+$indigo-200: mix($white, $indigo, 60%);
+$indigo-300: mix($white, $indigo, 40%);
+$indigo-400: mix($white, $indigo, 20%);
+$indigo-500: $indigo;
+$indigo-600: mix($black, $indigo, 20%);
+$indigo-700: mix($black, $indigo, 40%);
+$indigo-800: mix($black, $indigo, 60%);
+$indigo-900: mix($black, $indigo, 80%);
+
+$teal-50: mix($white, $teal, 90%);
+$teal-100: mix($white, $teal, 80%);
+$teal-200: mix($white, $teal, 60%);
+$teal-300: mix($white, $teal, 40%);
+$teal-400: mix($white, $teal, 20%);
+$teal-500: $teal;
+$teal-600: mix($black, $teal, 20%);
+$teal-700: mix($black, $teal, 40%);
+$teal-800: mix($black, $teal, 60%);
+$teal-900: mix($black, $teal, 80%);
+
+$orange-50: mix($white, $orange, 90%);
+$orange-100: mix($white, $orange, 80%);
+$orange-200: mix($white, $orange, 60%);
+$orange-300: mix($white, $orange, 40%);
+$orange-400: mix($white, $orange, 20%);
+$orange-500: $orange;
+$orange-600: mix($black, $orange, 20%);
+$orange-700: mix($black, $orange, 40%);
+$orange-800: mix($black, $orange, 60%);
+$orange-900: mix($black, $orange, 80%);
+
+$bluegray-50: mix($white, $bluegray, 90%);
+$bluegray-100: mix($white, $bluegray, 80%);
+$bluegray-200: mix($white, $bluegray, 60%);
+$bluegray-300: mix($white, $bluegray, 40%);
+$bluegray-400: mix($white, $bluegray, 20%);
+$bluegray-500: $bluegray;
+$bluegray-600: mix($black, $bluegray, 20%);
+$bluegray-700: mix($black, $bluegray, 40%);
+$bluegray-800: mix($black, $bluegray, 60%);
+$bluegray-900: mix($black, $bluegray, 80%);
+
+$purple-50: mix($white, $purple, 90%);
+$purple-100: mix($white, $purple, 80%);
+$purple-200: mix($white, $purple, 60%);
+$purple-300: mix($white, $purple, 40%);
+$purple-400: mix($white, $purple, 20%);
+$purple-500: $purple;
+$purple-600: mix($black, $purple, 20%);
+$purple-700: mix($black, $purple, 40%);
+$purple-800: mix($black, $purple, 60%);
+$purple-900: mix($black, $purple, 80%);
+
+$red-50: mix($white, $red, 90%);
+$red-100: mix($white, $red, 80%);
+$red-200: mix($white, $red, 60%);
+$red-300: mix($white, $red, 40%);
+$red-400: mix($white, $red, 20%);
+$red-500: $red;
+$red-600: mix($black, $red, 20%);
+$red-700: mix($black, $red, 40%);
+$red-800: mix($black, $red, 60%);
+$red-900: mix($black, $red, 80%);
+
+$disabled-opacity: 0.6;
+
+$font-family-base: "Open Sans", ui-sans-serif, system-ui, -apple-system,
+  BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans,
+  sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol,
+  Noto Color Emoji;
+$font-family-icon: "PrimeIcons" !important;
+
+$font-size-base: 1rem;
+$font-size-sm: 0.875rem;
+$font-size-lg: 1.25rem;
+
+$font-weight-100: 100;
+$font-weight-200: 200;
+$font-weight-300: 300;
+$font-weight-400: normal;
+$font-weight-500: 500;
+$font-weight-600: 600;
+$font-weight-700: 700;
+$font-weight-800: 800;
+$font-weight-900: 900;
+
+$transition-duration: 0.15s;
+$animation-duration: 0.15s;
+
+$box-shadow-sm: 0 2px 2px 0 rgba($black, 0.08), 0 0 2px 0 rgba($black, 0.08),
+  0px 4px 12px rgba($black, 0.04);
+$box-shadow-card: $box-shadow-sm;
+$box-shadow-dropdown: $box-shadow-sm;
+
+$button-padding: 0.5rem;
+$button-padding-sm: 0.375rem;
+$button-padding-lg: 0.75rem;
+
+$table-cell-padding-y: 0.75rem;
+$table-cell-padding-x: 0.625rem;
+
+$paginator-width: 2.25rem;
+$paginator-height: 2.25rem;
+
+:root {
+  --surface-a: #{$surface-a};
+  --surface-b: #{$surface-b};
+  --surface-c: #{$surface-c};
+  --surface-d: #{$surface-d};
+  --surface-e: #{$surface-e};
+  --surface-f: #{$surface-f};
+
+  --primary-50: #{$primary-50};
+  --primary-100: #{$primary-100};
+  --primary-200: #{$primary-200};
+  --primary-300: #{$primary-300};
+  --primary-400: #{$primary-400};
+  --primary-500: #{$primary-500};
+  --primary-600: #{$primary-600};
+  --primary-700: #{$primary-700};
+  --primary-800: #{$primary-800};
+  --primary-900: #{$primary-900};
+
+  --text-color: #{$text-color};
+  --text-color-secondary: #{$text-color-secondary};
+  --primary-color: #{$primary-color};
+  --primary-color-text: #{$primary-color-text};
+  --secondary-color: #{$secondary-color};
+
+  --surface-0: #{$surface-0};
+  --surface-50: #{$surface-50};
+  --surface-100: #{$surface-100};
+  --surface-200: #{$surface-200};
+  --surface-300: #{$surface-300};
+  --surface-400: #{$surface-400};
+  --surface-500: #{$surface-500};
+  --surface-600: #{$surface-600};
+  --surface-700: #{$surface-700};
+  --surface-800: #{$surface-800};
+  --surface-900: #{$surface-900};
+
+  --gray-50: #{$gray-50};
+  --gray-100: #{$gray-100};
+  --gray-200: #{$gray-200};
+  --gray-300: #{$gray-300};
+  --gray-400: #{$gray-400};
+  --gray-500: #{$gray-500};
+  --gray-600: #{$gray-600};
+  --gray-700: #{$gray-700};
+  --gray-800: #{$gray-800};
+  --gray-900: #{$gray-900};
+
+  --content-padding: #{$content-padding};
+  --inline-spacing: #{$inline-spacing};
+  --border-radius: #{$border-radius};
+
+  --surface-ground: #{$surface-ground};
+  --surface-section: #{$surface-section};
+  --surface-card: #{$surface-card};
+  --surface-overlay: #{$surface-overlay};
+  --surface-border: #{$surface-border};
+  --surface-hover: #{$surface-hover};
+
+  --focus-ring: #{$focus-ring};
+
+  --maskbg: #{$maskbg};
+
+  --blue-50: #{$blue-50};
+  --blue-100: #{$blue-100};
+  --blue-200: #{$blue-200};
+  --blue-300: #{$blue-300};
+  --blue-400: #{$blue-400};
+  --blue-500: #{$blue-500};
+  --blue-600: #{$blue-600};
+  --blue-700: #{$blue-700};
+  --blue-800: #{$blue-800};
+  --blue-900: #{$blue-900};
+
+  --green-50: #{$green-50};
+  --green-100: #{$green-100};
+  --green-200: #{$green-200};
+  --green-300: #{$green-300};
+  --green-400: #{$green-400};
+  --green-500: #{$green-500};
+  --green-600: #{$green-600};
+  --green-700: #{$green-700};
+  --green-800: #{$green-800};
+  --green-900: #{$green-900};
+
+  --yellow-50: #{$yellow-50};
+  --yellow-100: #{$yellow-100};
+  --yellow-200: #{$yellow-200};
+  --yellow-300: #{$yellow-300};
+  --yellow-400: #{$yellow-400};
+  --yellow-500: #{$yellow-500};
+  --yellow-600: #{$yellow-600};
+  --yellow-700: #{$yellow-700};
+  --yellow-800: #{$yellow-800};
+  --yellow-900: #{$yellow-900};
+
+  --cyan-50: #{$cyan-50};
+  --cyan-100: #{$cyan-100};
+  --cyan-200: #{$cyan-200};
+  --cyan-300: #{$cyan-300};
+  --cyan-400: #{$cyan-400};
+  --cyan-500: #{$cyan-500};
+  --cyan-600: #{$cyan-600};
+  --cyan-700: #{$cyan-700};
+  --cyan-800: #{$cyan-800};
+  --cyan-900: #{$cyan-900};
+
+  --pink-50: #{$pink-50};
+  --pink-100: #{$pink-100};
+  --pink-200: #{$pink-200};
+  --pink-300: #{$pink-300};
+  --pink-400: #{$pink-400};
+  --pink-500: #{$pink-500};
+  --pink-600: #{$pink-600};
+  --pink-700: #{$pink-700};
+  --pink-800: #{$pink-800};
+  --pink-900: #{$pink-900};
+
+  --indigo-50: #{$indigo-50};
+  --indigo-100: #{$indigo-100};
+  --indigo-200: #{$indigo-200};
+  --indigo-300: #{$indigo-300};
+  --indigo-400: #{$indigo-400};
+  --indigo-500: #{$indigo-500};
+  --indigo-600: #{$indigo-600};
+  --indigo-700: #{$indigo-700};
+  --indigo-800: #{$indigo-800};
+  --indigo-900: #{$indigo-900};
+
+  --teal-50: #{$teal-50};
+  --teal-100: #{$teal-100};
+  --teal-200: #{$teal-200};
+  --teal-300: #{$teal-300};
+  --teal-400: #{$teal-400};
+  --teal-500: #{$teal-500};
+  --teal-600: #{$teal-600};
+  --teal-700: #{$teal-700};
+  --teal-800: #{$teal-800};
+  --teal-900: #{$teal-900};
+
+  --orange-50: #{$orange-50};
+  --orange-100: #{$orange-100};
+  --orange-200: #{$orange-200};
+  --orange-300: #{$orange-300};
+  --orange-400: #{$orange-400};
+  --orange-500: #{$orange-500};
+  --orange-600: #{$orange-600};
+  --orange-700: #{$orange-700};
+  --orange-800: #{$orange-800};
+  --orange-900: #{$orange-900};
+
+  --bluegray-50: #{$bluegray-50};
+  --bluegray-100: #{$bluegray-100};
+  --bluegray-200: #{$bluegray-200};
+  --bluegray-300: #{$bluegray-300};
+  --bluegray-400: #{$bluegray-400};
+  --bluegray-500: #{$bluegray-500};
+  --bluegray-600: #{$bluegray-600};
+  --bluegray-700: #{$bluegray-700};
+  --bluegray-800: #{$bluegray-800};
+  --bluegray-900: #{$bluegray-900};
+
+  --purple-50: #{$purple-50};
+  --purple-100: #{$purple-100};
+  --purple-200: #{$purple-200};
+  --purple-300: #{$purple-300};
+  --purple-400: #{$purple-400};
+  --purple-500: #{$purple-500};
+  --purple-600: #{$purple-600};
+  --purple-700: #{$purple-700};
+  --purple-800: #{$purple-800};
+  --purple-900: #{$purple-900};
+
+  --red-50: #{$red-50};
+  --red-100: #{$red-100};
+  --red-200: #{$red-200};
+  --red-300: #{$red-300};
+  --red-400: #{$red-400};
+  --red-500: #{$red-500};
+  --red-600: #{$red-600};
+  --red-700: #{$red-700};
+  --red-800: #{$red-800};
+  --red-900: #{$red-900};
+
+  --font-family: #{$font-family-base};
+
+  --shadow: #{$box-shadow-sm};
+
+  --header-height: 4.375rem;
+
+  --border-color: #{$border-color};
+  --accent-color: #{$accent-color};
+  --accent-color-text: #{$accent-color-text};
+}
