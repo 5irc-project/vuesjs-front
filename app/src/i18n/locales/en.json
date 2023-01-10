@@ -4,6 +4,9 @@
     "disconnect": "Disconnect",
     "home": "Home",
     "search": "Search",
-    "playlists": "Playlists"
+    "playlists": "Playlists",
+    "title": "Title",
+    "artist": "Artist",
+    "discovery": "Discovery"
   }
 }

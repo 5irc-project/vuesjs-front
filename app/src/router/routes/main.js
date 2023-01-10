@@ -9,6 +9,13 @@ export default [
         name: "home",
         component: () => import("@/pages/Home.vue")
       },
+
+      // discovery
+      {
+        path: "/discovery/recommendation",
+        name: "discovery_recommendation",
+        component: () => import("@/pages/discovery/Recommendation.vue")
+      },
     ]
   },
 ]
