@@ -1,3 +1,9 @@
 {
-
+  "shared": {
+    "profil": "Profile",
+    "disconnect": "Déconnexion",
+    "home": "Acceuil",
+    "search": "Chercher",
+    "playlists": "Playlistes"
+  }
 }
