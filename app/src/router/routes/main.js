@@ -9,6 +9,11 @@ export default [
         name: "home",
         component: () => import("@/pages/Home.vue")
       },
+      {
+        path: "/profil",
+        name: "profil",
+        component: () => import("@/pages/Profil.vue")
+      },
     ]
   },
 ]
