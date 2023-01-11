@@ -7,3 +7,4 @@ export const i18nKey = Symbol();
 
 // services
 export const authServiceKey = Symbol();
+export const spotifyServiceKey = Symbol();
