@@ -12,13 +12,17 @@ export default class SpotifyService {
     app.provide(this.serviceKey, this);
     this.userStore = useUserStore();
   }
-
-  login() {
-    const client_id = document.env.VUE_APP_SPOTIFY_CLIENT_ID;
+  
+  async login(authService) {
+    /*const client_id = document.env.VUE_APP_SPOTIFY_CLIENT_ID;
     const redirect_uri = document.env.VUE_APP_SPOTIFY_REDIRECT_URI;
-    const scopes = document.env.VUE_APP_SPOTIFY_SCOPES;
+    const scopes = document.env.VUE_APP_SPOTIFY_SCOPES;*/
+    
+    const response = await authService.authSpotify();
+    const url = response.data;
+    console.log(response)
 
-    const popup = window.open(`https://accounts.spotify.com/authorize?client_id=${client_id}&response_type=token&redirect_uri=${redirect_uri}&scope=${scopes}&show_dialog=true`, 'Login with Spotify', 'width=800,height=600')
+    const popup = window.open(url, 'Login with Spotify', 'width=800,height=600')
       
     window.spotifyCallback = async (payload) => {
       popup.close();

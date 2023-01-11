@@ -10,7 +10,7 @@
     <Button
       class="spotify p-0"
       aria-label="Spotify"
-      @click="spotifyService.login"
+      @click="login"
     >
       <img src="images/logo/spotify.svg" style="height: 34px" />
       <span class="px-3">Login with Spotify</span>
@@ -20,13 +20,23 @@
 
 <script setup>
 import { inject } from "vue";
-import { spotifyServiceKey } from "@/serviceKeys";
+import { spotifyServiceKey, authServiceKey } from "@/serviceKeys";
+import { useRoute } from "vue-router";
 
 const spotifyService = inject(spotifyServiceKey);
-const token = window.location.hash.substr(1).split("&")[0].split("=")[1];
+const authService = inject(authServiceKey);
+const route = useRoute();
 
-if (token) {
-  window.opener.spotifyCallback(token);
+const accessToken = route.query.accessToken;
+// const refreshToken = route.query.refreshToken;
+// const jwtToken = route.query.jwtToken;
+
+if (accessToken) {
+  window.opener.spotifyCallback(accessToken);
+}
+
+function login() {
+  spotifyService.login(authService);
 }
 </script>
 
