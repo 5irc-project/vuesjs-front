@@ -20,10 +20,10 @@
 
 <script setup>
 import { inject } from "vue";
-import { spotifyServiceKey, authServiceKey } from "@/serviceKeys";
+import { musicPlayerStoreKey, authServiceKey } from "@/serviceKeys";
 import { useRoute } from "vue-router";
 
-const spotifyService = inject(spotifyServiceKey);
+const musicPlayerStore = inject(musicPlayerStoreKey);
 const authService = inject(authServiceKey);
 const route = useRoute();
 
@@ -36,7 +36,7 @@ if (accessToken) {
 }
 
 function login() {
-  spotifyService.login(authService);
+  musicPlayerStore.getService.login(authService);
 }
 </script>
 

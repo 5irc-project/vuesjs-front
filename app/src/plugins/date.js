@@ -9,8 +9,18 @@ const formatDate = (date, format = DATE_FORMAT) => {
   return '';
 }
 
+const formatTime = (timestamp) => {
+  timestamp /= 1000;
+  const hours = Math.floor(timestamp / 60 / 60);
+  const minutes = Math.floor(timestamp / 60) - (hours * 60);
+  const seconds = timestamp % 60;
+
+  return minutes.toString().padStart(2, '0') + ':' + Math.round(seconds).toString().padStart(2, '0');
+}
+
 export default {
   install(app) {
-    app.config.globalProperties.$d = formatDate;
+    app.config.globalProperties.$fd = formatDate;
+    app.config.globalProperties.$ft = formatTime;
   }
 }
