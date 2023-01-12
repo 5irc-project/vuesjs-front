@@ -25,7 +25,7 @@
             <span>{{ $t('shared.playlists') }}</span>
           </router-link>
 
-          <router-link :to="{ name: 'home' }" class="main-menu_link">
+          <router-link :to="{ name: 'profil' }" class="main-menu_link">
             <i class="pi pi-user"></i>
             <span>{{ $t('shared.profil') }}</span>
           </router-link>

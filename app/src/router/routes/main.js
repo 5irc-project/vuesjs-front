@@ -28,6 +28,11 @@ export default [
         name: "playlists",
         component: () => import("@/pages/Playlists.vue")
       },
+      {
+        path: "/profil",
+        name: "profil",
+        component: () => import("@/pages/Profil.vue")
+      },
     ]
   },
 ]
