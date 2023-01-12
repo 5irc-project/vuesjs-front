@@ -15,6 +15,15 @@
 }
 
 .layout-menu {
+  width: auto;
+  display: inline-block;
+  
+  &__item {
+    width: 85%;
+  }
+}
+
+.main-menu {
   list-style-type: none;
   margin: $content-padding;
   display: flex;
@@ -37,6 +46,10 @@
       font-size: $font-size-sm;
     }
   }
+}
+
+.minified-player-menu {
+
 }
 
 .copyright {

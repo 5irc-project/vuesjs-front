@@ -1,6 +1,6 @@
 <template>
   <MinifiedPlayer>
-    <span style="font-size: 0.75rem">{{
+    <span style="font-size: 0.75rem; text-align: left;">{{
       currentDevice?.name
     }}</span>
 

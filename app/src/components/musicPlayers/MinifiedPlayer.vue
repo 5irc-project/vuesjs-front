@@ -60,6 +60,11 @@ const { isLoaded, artists, title, img, position, duration, playIcon, togglePlay 
           margin: 0;
           margin-right: 0.25rem; 
         }
+
+      }
+
+      span {
+        text-align: left !important;
       }
     }
 

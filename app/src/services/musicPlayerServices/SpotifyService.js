@@ -95,7 +95,7 @@ export default class SpotifyService extends MusicPlayerService {
       
       setInterval(async () => {
         await this.updateState()
-      }, 1000);
+      }, 10000);
     });
 
     this.player.addListener('player_state_changed', async () => {
