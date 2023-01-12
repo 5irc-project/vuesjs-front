@@ -59,7 +59,7 @@ onMounted(() => {
 
 
 <style lang="scss">
-svg {
+.gooey-bubbles svg {
   position: absolute !important;
   top: -4000px !important;
   left: -4000px !important;

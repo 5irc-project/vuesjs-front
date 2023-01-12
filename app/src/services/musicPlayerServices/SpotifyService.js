@@ -43,6 +43,18 @@ export default class SpotifyService extends MusicPlayerService {
     const { data } = await this.http.get("me/player");
     return data;
   }
+  changeDevice(device_id) {
+    return this.http.put("me/player", {
+      device_ids: [device_id],
+      play: true
+    });
+  }
+  play() {
+    return this.http.put("me/player/play");
+  }
+  pause() {
+    return this.http.put("me/player/pause");
+  }
 
 
   login() {
@@ -95,7 +107,7 @@ export default class SpotifyService extends MusicPlayerService {
       
       setInterval(async () => {
         await this.updateState()
-      }, 10000);
+      }, 1000);
     });
 
     this.player.addListener('player_state_changed', async () => {
@@ -136,8 +148,14 @@ export default class SpotifyService extends MusicPlayerService {
   }
 
   async togglePlay() {
-    await this.player.togglePlay();
-    await this.updateState();
+    const musicPlayerStore = useMusicPlayerStore();
+    const state = musicPlayerStore.getState;
+
+    if(!state.is_playing) {
+      await this.play();
+    } else {
+      await this.pause();
+    }
   }
   async seek(trackTimeMS) {
     return this.player.seek(trackTimeMS);

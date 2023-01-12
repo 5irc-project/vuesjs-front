@@ -45,6 +45,21 @@ import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide } from 'vue3-carousel'
 import GooeyButton from '@/components/shared/buttons/GooeyButton.vue';
 import SpotifyMinifiedPlayer from "@/components/musicPlayers/spotify/SpotifyMinifiedPlayer";
+
+import gsap from "gsap";
+import { onMounted } from "vue";
+
+onMounted(() => {
+  gsap.fromTo(".main-menu_link",
+  {
+    opacity: 0,
+  },  
+  {
+    duration: 1,
+    opacity: 1,
+    ease: "easeOut",
+  });
+});
 </script>
 
 <style>

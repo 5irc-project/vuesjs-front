@@ -5,16 +5,14 @@
     }}</span>
 
     <template v-slot:actions>
-      <Button
-        icon="pi pi-th-large"
-        class="p-button-rounded p-button-text p-button-main"
-      />
+      <DeviceManager />
     </template>
   </MinifiedPlayer>
 </template>
 
 <script setup>
 import MinifiedPlayer from "@/components/musicPlayers/MinifiedPlayer.vue";
+import DeviceManager from "./DeviceManager.vue";
 
 import { computed, inject, ref } from "vue";
 import { storeToRefs } from "pinia";
