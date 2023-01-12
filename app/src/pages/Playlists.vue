@@ -2,7 +2,7 @@
   <div class="page">
     <h1>Playlists</h1>
     <div class="page__playlists">
-      <SearchBar />
+      <SearchBar placeholder="Search a playlist"/>
       <TabView :activeIndex="1">
         <TabPanel header="Generated">
           <List>

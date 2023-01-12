@@ -8,7 +8,7 @@
             <span>{{ $t('shared.home') }}</span>
           </router-link>
 
-          <router-link :to="{ name: 'home' }" class="main-menu_link">
+          <router-link :to="{ name: 'search' }" class="main-menu_link">
             <i class="pi pi-search"></i>
             <span>{{ $t('shared.search') }}</span>
           </router-link>
