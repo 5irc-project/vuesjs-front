@@ -7,29 +7,24 @@
         <TabPanel header="Generated">
           <List>
             <Item
-              imageSrc="images/image.PNG"
-              title="title"
-              description="description"
+              v-for="playlist in generatedPlaylists"
+              :key="playlist.id"
+              :imageSrc="playlist.imageSrc"
+              :title="playlist.title"
+              :description="playlist.description"
+              @click="redirect(playlist)"
             />
           </List>
         </TabPanel>
         <TabPanel header="Mine">
           <List>
             <Item
-              imageSrc="images/image.PNG"
-              title="title"
-              description="description"
-              @clickAction="() => console.log('hello')"
-            />
-            <Item
-              imageSrc="images/image.PNG"
-              title="title"
-              description="description"
-            />
-            <Item
-              imageSrc="images/image.PNG"
-              title="title"
-              description="description"
+              v-for="playlist in playlists"
+              :key="playlist.id"
+              :imageSrc="playlist.imageSrc"
+              :title="playlist.title"
+              :description="playlist.description"
+              @click="redirect(playlist)"
             />
           </List>
         </TabPanel>
@@ -42,9 +37,57 @@
 import SearchBar from "@/components/shared/form/SearchBar.vue";
 import List from "@/components/shared/list/List.vue";
 import Item from "@/components/shared/list/Item.vue";
-// import { useRouter } from "vue-router";
 
-// const router = useRouter();
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { onMounted } from "vue-demi";
+
+const router = useRouter();
+
+function redirect(playlist) {
+  router.push({ name: "playlist",  params: { id: playlist?.id }});
+}
+
+const playlists = ref([]);
+const generatedPlaylists = ref([]);
+
+onMounted(() => {
+  playlists.value = [
+    {
+      imageSrc: "images/image.PNG",
+      title: "Title",
+      description: "Description",
+      id: 123
+    },
+    {
+      imageSrc: "images/image.PNG",
+      title: "Title",
+      description: "Description",
+      id: 124
+    },
+    {
+      imageSrc: "images/image.PNG",
+      title: "Title",
+      description: "Description",
+      id: 125
+    },
+  ];
+
+  generatedPlaylists.value = [
+    {
+      imageSrc: "images/image.PNG",
+      title: "Title",
+      description: "Description",
+      id: 129
+    },
+    {
+      imageSrc: "images/image.PNG",
+      title: "Title",
+      description: "Description",
+      id: 127
+    }
+  ]
+})
 </script>
 
 <style lang="scss" scoped>

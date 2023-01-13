@@ -29,6 +29,20 @@ export default [
         component: () => import("@/pages/Playlists.vue")
       },
       {
+        path: "/playlist/:id",
+        name: "playlist",
+        component: () => import("@/pages/Playlist.vue")
+      },
+
+      // music
+      {
+        path: "/player/:id",
+        name: "player",
+        component: () => import("@/pages/Player.vue")
+      },
+
+      // search
+      {
         path: "/search",
         name: "search",
         component: () => import("@/pages/Search.vue")

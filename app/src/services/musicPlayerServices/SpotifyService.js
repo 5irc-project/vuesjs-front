@@ -7,7 +7,7 @@ import MusicPlayerService from "./MusicPlayerService";
 export default class SpotifyService extends MusicPlayerService {
   constructor() {
     super(document.env.VUE_APP_SPOTIFY_BASE_URL);
-    
+
     this.http.interceptors.request.use(config => this.authorize(config));
 
     this.client_id = document.env.VUE_APP_SPOTIFY_CLIENT_ID;
@@ -15,7 +15,7 @@ export default class SpotifyService extends MusicPlayerService {
     this.scopes = document.env.VUE_APP_SPOTIFY_SCOPES;
     this.token = this.userStore.getToken;
 
-    if(!this.scopes || !this.redirect_uri || !this.client_id) {
+    if (!this.scopes || !this.redirect_uri || !this.client_id) {
       console.warn("Spotify environment variables undefined !");
     }
   }
@@ -65,7 +65,7 @@ export default class SpotifyService extends MusicPlayerService {
 
       this.token = payload;
       const { data } = await this.getProfil();
-      
+
       const userStore = useUserStore();
       userStore.setUser({
         ...data,
@@ -81,7 +81,7 @@ export default class SpotifyService extends MusicPlayerService {
     window.onSpotifyWebPlaybackSDKReady = function () {
       this.PlayerClass = window.Spotify.Player;
 
-      if(this.userStore.isLoggedIn) {
+      if (this.userStore.isLoggedIn) {
         this.createPlayer();
       }
     }.bind(this);
@@ -104,9 +104,11 @@ export default class SpotifyService extends MusicPlayerService {
     this.player.addListener('ready', async ({ device_id }) => {
       console.log('Ready with Device ID', device_id);
       this.updateState()
-      
+
       setInterval(async () => {
-        await this.updateState()
+        if (userStore.getToken != null) {
+          await this.updateState();
+        }
       }, 1000);
     });
 
@@ -140,7 +142,7 @@ export default class SpotifyService extends MusicPlayerService {
   async updateState(state = null) {
     const musicPlayerStore = useMusicPlayerStore();
 
-    if(state === null) {
+    if (state === null) {
       state = await this.getState();
     }
 
@@ -151,14 +153,14 @@ export default class SpotifyService extends MusicPlayerService {
     const musicPlayerStore = useMusicPlayerStore();
     const state = musicPlayerStore.getState;
 
-    if(!state.is_playing) {
+    if (!state.is_playing) {
       await this.play();
     } else {
       await this.pause();
     }
   }
   async seek(trackTimeMS) {
-    return this.player.seek(trackTimeMS);
+    return this.http.put("me/player/seek", { position_ms: trackTimeMS });
   }
 
   async previousTrack() {
