@@ -2,7 +2,7 @@ name: fastapi-github-actions-test
 
 on:
   push:
-    branches: [feature/cicd]
+    branches: [main]
 
 env:
   REGISTRY: ghcr.io
