@@ -1,10 +1,10 @@
 <template>
   <div v-if="isLoaded" class="minified-player">
     <div class="minified-player__recap">
-      <img :src="img" alt="">
+      <img :src="img" alt="" />
       <div class="minified-player__recap__informations">
         <div class="minified-player__recap__informations-text">
-          <h5>{{ title }} </h5>
+          <h5>{{ title }}</h5>
           <span> - {{ artists }}</span>
         </div>
         <slot></slot>
@@ -18,14 +18,46 @@
         />
       </div>
     </div>
-    <Slider class="player__time__slider" v-model="position" :step="20" :min="0" :max="duration" />
+    <Slider
+      class="player__time__slider"
+      @slideend="slideend"
+      v-model="computedPosition"
+      :step="20"
+      :min="0"
+      :max="duration"
+    />
   </div>
 </template>
 
 <script setup>
 import usePlayer from "@/composables/musicPlayers/playerComposable";
+import { computed, ref } from "vue";
 
-const { isLoaded, artists, title, img, position, duration, playIcon, togglePlay } = usePlayer();
+const proxyPosition = ref();
+
+const computedPosition = computed({
+  get() {
+    return position.value;
+  },
+  set(value) {
+    proxyPosition.value = value;
+  },
+});
+
+function slideend(){
+  position.value = proxyPosition.value;
+}
+
+const {
+  isLoaded,
+  artists,
+  title,
+  img,
+  position,
+  duration,
+  playIcon,
+  togglePlay,
+} = usePlayer();
 </script>
 
 <style scoped lang="scss">
@@ -36,7 +68,7 @@ const { isLoaded, artists, title, img, position, duration, playIcon, togglePlay 
     height: 100%;
     display: flex;
     flex-direction: row;
-    padding: .5rem;
+    padding: 0.5rem;
 
     img {
       height: 100%;
@@ -49,7 +81,7 @@ const { isLoaded, artists, title, img, position, duration, playIcon, togglePlay 
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-      padding: 0 .25rem 0;
+      padding: 0 0.25rem 0;
 
       &-text {
         display: flex;
@@ -58,9 +90,8 @@ const { isLoaded, artists, title, img, position, duration, playIcon, togglePlay 
 
         h5 {
           margin: 0;
-          margin-right: 0.25rem; 
+          margin-right: 0.25rem;
         }
-
       }
 
       span {

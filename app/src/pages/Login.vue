@@ -28,6 +28,7 @@ const authService = inject(authServiceKey);
 const route = useRoute();
 
 const accessToken = route.query.accessToken;
+console.log(accessToken)
 // const refreshToken = route.query.refreshToken;
 // const jwtToken = route.query.jwtToken;
 

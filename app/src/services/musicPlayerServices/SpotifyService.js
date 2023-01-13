@@ -57,8 +57,9 @@ export default class SpotifyService extends MusicPlayerService {
   }
 
 
-  login() {
-    const popup = window.open(`https://accounts.spotify.com/authorize?client_id=${this.client_id}&response_type=token&redirect_uri=${this.redirect_uri}&scope=${this.scopes}&show_dialog=true`, 'Login with Spotify', 'width=800,height=600')
+  async login(authService) {
+    const { data } = await authService.authSpotify();
+    const popup = window.open(data, 'Login with Spotify', 'width=800,height=600')
 
     window.spotifyCallback = async (payload) => {
       popup.close();
@@ -85,11 +86,6 @@ export default class SpotifyService extends MusicPlayerService {
         this.createPlayer();
       }
     }.bind(this);
-
-    const token = window.location.hash.substr(1).split("&")[0].split("=")[1];
-    if (token) {
-      window.opener.spotifyCallback(token);
-    }
   }
 
   createPlayer() {
@@ -146,6 +142,10 @@ export default class SpotifyService extends MusicPlayerService {
       state = await this.getState();
     }
 
+    if(state === "") {
+      return;
+    }
+
     musicPlayerStore.setState(state);
   }
 
@@ -160,19 +160,16 @@ export default class SpotifyService extends MusicPlayerService {
     }
   }
   async seek(trackTimeMS) {
-    return this.http.put("me/player/seek", { position_ms: trackTimeMS });
+    return this.http.put("me/player/seek?position_ms=" + trackTimeMS);
   }
 
   async previousTrack() {
-    await this.player.previousTrack();
+    await this.http.post("me/player/previous");
     await this.updateState();
   }
   async nextTrack() {
-    await this.player.nextTrack();
+    await this.http.post("me/player/next");
     await this.updateState();
-
-    const musicPlayerStore = useMusicPlayerStore();
-    console.log(musicPlayerStore.getState)
   }
 
   async getCurrentState() {

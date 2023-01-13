@@ -33,7 +33,6 @@ export default function usePlayer() {
       return musicState.value.progress_ms;
     },
     set(value) {
-      console.log(value )
       musicService.seek(value);
     },
   });

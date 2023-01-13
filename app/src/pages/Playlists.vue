@@ -40,7 +40,7 @@ import Item from "@/components/shared/list/Item.vue";
 
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { onMounted } from "vue-demi";
+import { onMounted } from "vue";
 
 const router = useRouter();
 

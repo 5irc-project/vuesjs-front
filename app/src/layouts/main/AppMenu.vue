@@ -21,7 +21,7 @@
           </GooeyButton>
 
           <router-link :to="{ name: 'playlists' }" class="main-menu_link">
-            <i class="pi pi-bookmark"></i>
+            <i class="pi pi-bookmark" v-badge.danger></i>
             <span>{{ $t('shared.playlists') }}</span>
           </router-link>
 
