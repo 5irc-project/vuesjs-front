@@ -8,11 +8,13 @@
         class="p-button-raised p-button-secondary"
       />
       <Button
+        disabled
         @click="redirect('mood')"
         label="Mood"
         class="p-button-raised p-button-secondary"
       />
       <Button
+        disabled
         @click="redirect('surprise-me')"
         label="Surprise me !"
         class="p-button-raised p-button-secondary"

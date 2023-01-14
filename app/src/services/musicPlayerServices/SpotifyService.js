@@ -49,11 +49,17 @@ export default class SpotifyService extends MusicPlayerService {
       play: true
     });
   }
-  play() {
-    return this.http.put("me/player/play");
+  play(trackId = null) {
+    return this.http.put("me/player/play", {
+      uris: trackId !== null ? [trackId] : [] 
+    });
   }
   pause() {
     return this.http.put("me/player/pause");
+  }
+  async search(query) {
+    const { data } = await this.http.get(`search?q=${query}&type=track&limit=1`);
+    return data.tracks.items[0];
   }
 
 
