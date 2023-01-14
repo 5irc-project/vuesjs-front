@@ -1,4 +1,4 @@
-import { computed, inject, onMounted, onBeforeUnmount } from "vue";
+import { computed, inject } from "vue";
 import { storeToRefs } from "pinia";
 import { musicPlayerStoreKey } from "@/serviceKeys";
 
@@ -13,7 +13,7 @@ export default function usePlayer() {
   });
   
   const artists = computed(() => {
-    return musicState.value?.item?.artists.reduce(
+    return musicState.value.context?.metadata.current_item.artists.reduce(
       (string, newArtist) =>
         (string += string != "" ? `, ${newArtist.name}` : newArtist.name),
       ""
@@ -21,16 +21,16 @@ export default function usePlayer() {
   });
   
   const title = computed(() => {
-    return musicState.value.item?.name;
+    return musicState.value.context?.metadata.current_item.name;
   });
   
   const img = computed(() => {
-    return musicState.value.item?.album?.images[1].url
+    return musicState.value.context?.metadata.current_item.images[2].url;
   });
   
   const position = computed({
     get() {
-      return musicState.value.progress_ms;
+      return musicState.value.position;
     },
     set(value) {
       musicService.seek(value);
@@ -38,11 +38,11 @@ export default function usePlayer() {
   });
   
   const duration = computed(() => {
-    return musicState.value.item?.duration_ms;
+    return musicState.value.duration;
   });
   
   const playIcon = computed(() => {
-    return musicState.value.is_playing ? "pi-pause" : "pi-caret-right";
+    return !musicState.value.paused ? "pi-pause" : "pi-caret-right";
   });
 
   const device = computed(() => {
@@ -60,21 +60,6 @@ export default function usePlayer() {
   async function nextTrack() {
     await musicService.nextTrack();
   }
-  
-  // eslint-disable-next-line
-  let timeInterval;
-  
-  onMounted(() => {
-    timeInterval = setInterval(() => {
-      if (musicState.value.paused) return;
-  
-      // musicState.value.position += 1000;
-    }, 1000);
-  });
-  
-  onBeforeUnmount(() => {
-    clearInterval(timeInterval);
-  });
 
   return { musicState, isLoaded, artists, title, img, position, duration, playIcon, device, togglePlay, previousTrack, nextTrack };
 }

@@ -9,8 +9,7 @@
       <span class="player__time__current">{{ $ft(position) }}</span>
       <Slider
         class="player__time__slider"
-        @slideend="slideend"
-        v-model="computedPosition"
+        v-model="position"
         :step="20"
         :min="0"
         :max="props.duration"
@@ -24,22 +23,7 @@
 </template>
 
 <script setup>
-import { defineProps, computed, ref } from "vue";
-
-const proxyPosition = ref();
-
-const computedPosition = computed({
-  get() {
-    return position.value;
-  },
-  set(value) {
-    proxyPosition.value = value;
-  },
-});
-
-function slideend(){
-  position.value = proxyPosition.value;
-}
+import { defineProps, computed } from "vue";
 
 const props = defineProps({
   title: String,

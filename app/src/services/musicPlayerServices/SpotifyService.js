@@ -1,6 +1,6 @@
+import router from "@/router";
 import { useUserStore } from "@/store/modules/user";
 import { useMusicPlayerStore } from "@/store/modules/musicPlayer";
-import router from "@/router";
 import MusicPlayerService from "./MusicPlayerService";
 
 
@@ -14,6 +14,8 @@ export default class SpotifyService extends MusicPlayerService {
     this.redirect_uri = document.env.VUE_APP_SPOTIFY_REDIRECT_URI;
     this.scopes = document.env.VUE_APP_SPOTIFY_SCOPES;
     this.token = this.userStore.getToken;
+
+    this.deviceChangedCallback;
 
     if (!this.scopes || !this.redirect_uri || !this.client_id) {
       console.warn("Spotify environment variables undefined !");
@@ -39,19 +41,23 @@ export default class SpotifyService extends MusicPlayerService {
   getDevices() {
     return this.http.get("me/player/devices");
   }
-  async getState() {
-    const { data } = await this.http.get("me/player");
-    return data;
-  }
-  changeDevice(device_id) {
-    return this.http.put("me/player", {
+  async changeDevice(device_id) {
+    const response = await this.http.put("me/player", {
       device_ids: [device_id],
       play: true
     });
+
+    if(this.deviceChangedCallback) {
+      setTimeout(() => {
+        this.deviceChangedCallback();
+      }, 300)
+    }
+
+    return response;
   }
   play(trackId = null) {
     return this.http.put("me/player/play", {
-      uris: trackId !== null ? [trackId] : [] 
+      uris: trackId !== null ? [trackId] : []
     });
   }
   pause() {
@@ -61,6 +67,7 @@ export default class SpotifyService extends MusicPlayerService {
     const { data } = await this.http.get(`search?q=${query}&type=track&limit=1`);
     return data.tracks.items[0];
   }
+
 
 
   async login(authService) {
@@ -105,20 +112,14 @@ export default class SpotifyService extends MusicPlayerService {
 
     this.player.addListener('ready', async ({ device_id }) => {
       console.log('Ready with Device ID', device_id);
-      this.updateState()
+      await this.updateState();
 
-      setInterval(async () => {
-        if (userStore.getToken != null) {
-          await this.updateState();
-        }
-      }, 1000);
+      this.changeDevice(device_id)
     });
 
-    this.player.addListener('player_state_changed', async () => {
-      const data = await this.getState();
-
+    this.player.addListener('player_state_changed', async (state) => {
       const musicPlayerStore = useMusicPlayerStore();
-      musicPlayerStore.setState(data);
+      musicPlayerStore.setState(state);
     });
 
     // Not Ready
@@ -138,6 +139,17 @@ export default class SpotifyService extends MusicPlayerService {
       console.error(message);
     });
 
+    const musicPlayerStore = useMusicPlayerStore();
+
+    setInterval(() => {
+      const state = musicPlayerStore.getState; 
+
+      if (state.paused) return;
+      
+      state.position += 1000;
+      musicPlayerStore.setState(state);
+    }, 1000);
+
     this.player.connect();
   }
 
@@ -148,7 +160,7 @@ export default class SpotifyService extends MusicPlayerService {
       state = await this.getState();
     }
 
-    if(state === "") {
+    if (state === "") {
       return;
     }
 
@@ -156,29 +168,23 @@ export default class SpotifyService extends MusicPlayerService {
   }
 
   async togglePlay() {
-    const musicPlayerStore = useMusicPlayerStore();
-    const state = musicPlayerStore.getState;
-
-    if (!state.is_playing) {
-      await this.play();
-    } else {
-      await this.pause();
-    }
+    await this.player.togglePlay();
+    await this.updateState();
   }
   async seek(trackTimeMS) {
-    return this.http.put("me/player/seek?position_ms=" + trackTimeMS);
+    return this.player.seek(trackTimeMS);
   }
 
   async previousTrack() {
-    await this.http.post("me/player/previous");
+    await this.player.previousTrack();
     await this.updateState();
   }
   async nextTrack() {
-    await this.http.post("me/player/next");
+    await this.player.nextTrack();
     await this.updateState();
   }
 
-  async getCurrentState() {
+  async getState() {
     return this.player.getCurrentState();
   }
 
@@ -188,5 +194,9 @@ export default class SpotifyService extends MusicPlayerService {
   }
   async setVolume(volume) {
     return this.player.setVolume(volume);
+  }
+
+  onDeviceChanged(callback) {
+    this.deviceChangedCallback = callback;
   }
 }

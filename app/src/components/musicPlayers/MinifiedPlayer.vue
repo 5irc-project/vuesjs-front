@@ -20,8 +20,7 @@
     </div>
     <Slider
       class="player__time__slider"
-      @slideend="slideend"
-      v-model="computedPosition"
+      v-model="position"
       :step="20"
       :min="0"
       :max="duration"
@@ -31,22 +30,6 @@
 
 <script setup>
 import usePlayer from "@/composables/musicPlayers/playerComposable";
-import { computed, ref } from "vue";
-
-const proxyPosition = ref();
-
-const computedPosition = computed({
-  get() {
-    return position.value;
-  },
-  set(value) {
-    proxyPosition.value = value;
-  },
-});
-
-function slideend(){
-  position.value = proxyPosition.value;
-}
 
 const {
   isLoaded,
@@ -91,11 +74,20 @@ const {
         h5 {
           margin: 0;
           margin-right: 0.25rem;
+          text-align: left !important;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 90px;
         }
       }
 
       span {
         text-align: left !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 90px;
       }
     }
 
