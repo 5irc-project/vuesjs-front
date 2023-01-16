@@ -9,7 +9,7 @@
 
 <style lang="scss">
 .b-list {
-  max-height: 80%;
+  height: 80%;
   overflow-y: scroll;
 
   > :not(:last-child) { 

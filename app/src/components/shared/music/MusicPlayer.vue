@@ -27,7 +27,9 @@
         icon="pi pi-step-forward"
         class="p-button-rounded p-button-action"
       />
-      <Button icon="pi pi-sync" class="p-button-rounded p-button-action" />
+      <Button icon="pi pi-sync" class="p-button-rounded p-button-action" @click="toggleRepeatMode">
+        <i v-if="repeatMode" id="repeatMode" class="pi pi-sync" v-badge.danger></i>
+      </Button>
     </template>
   </Player>
 </template>
@@ -36,5 +38,14 @@
 import Player from "@/components/shared/music/Player.vue";
 import usePlayer from "@/composables/musicPlayers/playerComposable";
 
-const { isLoaded, artists, title, img, position, duration, playIcon, togglePlay, previousTrack, nextTrack } = usePlayer();
+const { isLoaded, artists, title, img, position, duration, playIcon, togglePlay, previousTrack, nextTrack, repeatMode, toggleRepeatMode } = usePlayer();
 </script>
+
+<style lang="scss">
+#repeatMode {
+  span {
+    min-width: .75rem !important;
+    height: .75rem !important;
+  }
+}
+</style>

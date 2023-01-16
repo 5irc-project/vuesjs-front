@@ -4,12 +4,19 @@
     "disconnect": "Disconnect",
     "home": "Home",
     "search": "Search",
-    "playlists": "Playlists"
+    "playlists": "Playlists",
+    "options": "Options"
   },
   "playlist": {
-    "validate": "Validate"
+    "validate": "Validate",
+    "delete": "Delete my playlist !"
   },
   "discovery": {
     "creating": "We’re creating your new playlist based on your choices. We’ll notify you when it’s ready."
+  },
+  "music": {
+    "delete": "Remove from the playlist",
+    "addToAPlaylist": "Add to a playlist",
+    "addToFav": "Add to your favorite tracks"
   }
 }

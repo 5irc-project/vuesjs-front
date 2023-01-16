@@ -1,4 +1,4 @@
-import { computed, inject } from "vue";
+import { computed, inject, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { musicPlayerStoreKey } from "@/serviceKeys";
 
@@ -6,7 +6,7 @@ export default function usePlayer() {
   const musicPlayerStore = inject(musicPlayerStoreKey);
   const musicService = musicPlayerStore.getService;
   
-  const { musicState } = storeToRefs(musicPlayerStore);
+  const { musicState, repeatMode } = storeToRefs(musicPlayerStore);
   
   const isLoaded = computed(() => {
     return musicState.value;
@@ -40,6 +40,12 @@ export default function usePlayer() {
   const duration = computed(() => {
     return musicState.value.duration;
   });
+
+  watch(position, (newPosition) => {
+    if(repeatMode.value === false && newPosition === duration.value) {
+      nextTrack();
+    }
+  })
   
   const playIcon = computed(() => {
     return !musicState.value.paused ? "pi-pause" : "pi-caret-right";
@@ -54,10 +60,24 @@ export default function usePlayer() {
   }
   
   async function previousTrack() {
+    const previousMusic = musicPlayerStore.getPreviousMusic;
+    
+    if(previousMusic !== undefined) {
+      playMusicByDto(previousMusic);
+      return;
+    }
+
     await musicService.previousTrack();
   }
   
   async function nextTrack() {
+    const nextMusic = musicPlayerStore.getNextMusic;
+    
+    if(nextMusic !== undefined) {
+      playMusicByDto(nextMusic);
+      return;
+    }
+
     await musicService.nextTrack();
   }
 
@@ -74,10 +94,20 @@ export default function usePlayer() {
   function search(query) {
     return musicService.search(query);
   }
-  function searchByMusic(music) {
+  async function searchByMusic(music) {
     return musicService.search(music.trackName + " " + music.artistName);
   }
 
-  return { musicState, isLoaded, artists, title, img, position, duration, playIcon, device, play, pause, playTrack, search, searchByMusic, togglePlay, previousTrack, nextTrack };
+  async function playMusicByDto(music) {
+    const toPlay = await searchByMusic(music);
+    await playTrack(toPlay.uri);
+    musicPlayerStore.setCurrentMusic(music);
+  }
+
+  function toggleRepeatMode() {
+    return musicPlayerStore.toggleRepeatMode();
+  }
+
+  return { musicState, isLoaded, artists, title, img, position, duration, playIcon, device, repeatMode, play, playMusicByDto, pause, playTrack, search, searchByMusic, togglePlay, previousTrack, nextTrack, toggleRepeatMode };
 }
 

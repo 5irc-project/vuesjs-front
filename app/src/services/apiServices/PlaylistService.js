@@ -20,6 +20,19 @@ export default class PlaylistService extends ApiService {
     return data;
   }
 
+  deletePlaylist(id) {
+    return this.delete(`${id}`);
+  }
+
+  updatePlaylist(playlist) {
+    return this.put(`${playlist.playlistId}`, playlist);
+  }
+
+  async removeTrackFromPlaylist(playlist, track) {
+    const data = await this.post(`/PlaylistTrack/Remove/${playlist.playlistId}`, [ track ]);
+    return data;
+  }
+
 
   async getSeparatedPlaylists() {
     const playlists = await this.getMyPlaylists();
@@ -29,4 +42,15 @@ export default class PlaylistService extends ApiService {
 
     return { myPlaylists, generatedPlaylists };
   }
+
+  async validatePlaylist(playlist) {
+    const validatedPlaylist = {
+      ...playlist,
+      kindId: PLAYLIST_KIND.MANUAL
+    }
+
+    const data = await this.updatePlaylist(validatedPlaylist);
+    return data;
+  }
+
 }

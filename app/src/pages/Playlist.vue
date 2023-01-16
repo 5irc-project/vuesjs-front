@@ -25,9 +25,15 @@
         :key="music.trackId"
         :title="music.trackName"
         :description="music.artistName"
-        @click="play(music)"
-      />
+        @clickItem="play(music)"
+        @clickAction="openSideMenu(music)"
+      >
+      </Item>
     </List>
+    <Sidebar v-model:visible="sidebar" :baseZIndex="10000" position="bottom" class="sidebar">
+      <h3>{{ $t('shared.options') }}</h3>
+      <Button @click="removeFromPlaylist" :label="$t('music.delete')" icon="pi pi-times" class="p-button-danger" />
+    </Sidebar>
   </div>
 </template>
 
@@ -38,23 +44,32 @@ import Item from "@/components/shared/list/Item.vue";
 
 import { ref, inject } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { playlistServiceKey } from "@/serviceKeys";
+import { playlistServiceKey, musicPlayerStoreKey } from "@/serviceKeys";
 
 const route = useRoute();
 const router = useRouter();
 const playlistService = inject(playlistServiceKey);
+const musicPlayerStore = inject(musicPlayerStoreKey);
 
-var playlist = ref({});
+const playlist = ref({});
+const selectedMusic = ref(null);
 
-playlistService.getById(route.params.id).then((p) => {
-  playlist.value = p;
-});
+const sidebar = ref(false);
+
+
+async function updatePlaylist() {
+  playlist.value = await playlistService.getById(route.params.id);
+}
+updatePlaylist();
 
 function validate() {
 
 }
 
 function play(music) {
+  musicPlayerStore.setCurrentMusic(music);
+  musicPlayerStore.setCurrentPlaylist(playlist.value);
+
   router.push({
     name: "player",
     params: {
@@ -62,12 +77,35 @@ function play(music) {
     }
   })
 }
+
+function openSideMenu(music) {
+  sidebar.value = true;
+  selectedMusic.value = music;
+}
+function closeSidebar() {
+  sidebar.value = false;
+  selectedMusic.value = null;
+}
+
+async function removeFromPlaylist() {
+  await playlistService.removeTrackFromPlaylist(playlist.value, selectedMusic.value);
+  updatePlaylist();
+
+  closeSidebar();
+}
 </script>
 
 <style lang="scss" scoped>
 .page__playlists {
   .search-bar {
     margin: $content-padding 0;
+  }
+}
+
+.sidebar {
+  button {
+    width: 100%;
+    margin: .25rem 0;
   }
 }
 </style>

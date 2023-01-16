@@ -1,10 +1,11 @@
 <template>
   <div class="b-list__item">
     <img class="b-list__item__image" :src="imageSrc" alt="" />
-    <div class="b-list__item__info">
+    <div class="b-list__item__info" @click="emit('clickItem')">
       <h4>{{ title }}</h4>
       <span>{{ description }}</span>
     </div>
+    <slot></slot>
     <i
       class="b-list__item__action pi pi-ellipsis-v"
       @click="emit('clickAction')"
@@ -19,7 +20,7 @@ defineProps({
   description: String,
 });
 
-const emit = defineEmits(["clickAction"]);
+const emit = defineEmits(["clickAction", "clickItem"]);
 </script>
 
 <style lang="scss">
