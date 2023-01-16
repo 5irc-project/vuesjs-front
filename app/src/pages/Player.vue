@@ -21,7 +21,7 @@ var music = ref({});
 musicService.getById(route.params.id).then(async (m) => {
   music.value = m;
 
-  const toPlay = await musicPlayerService.search(music.value.title + " " + music.value.artists);
-  await musicPlayerService.play(toPlay.uri);
+  const toPlay = await musicPlayerService.search(music.value.trackName + " " + music.value.artistName);
+  await musicPlayerService.playTrack(toPlay.uri);
 });
 </script> 

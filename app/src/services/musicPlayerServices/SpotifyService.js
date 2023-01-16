@@ -55,17 +55,20 @@ export default class SpotifyService extends MusicPlayerService {
 
     return response;
   }
-  play(trackId = null) {
-    return this.http.put("me/player/play", {
-      uris: trackId !== null ? [trackId] : []
-    });
+  play() {
+    return this.player.resume();
   }
   pause() {
-    return this.http.put("me/player/pause");
+    return this.player.pause();
   }
   async search(query) {
     const { data } = await this.http.get(`search?q=${query}&type=track&limit=1`);
     return data.tracks.items[0];
+  }
+  playTrack(trackId = null) {
+    return this.http.put("me/player/play", {
+      uris: trackId !== null ? [trackId] : []
+    });
   }
 
 
@@ -87,8 +90,11 @@ export default class SpotifyService extends MusicPlayerService {
       });
 
       this.createPlayer();
-      router.push({ name: "home" });
+      router.push({ name: "match" });
     }
+  }
+  logout() {
+    this.pause();
   }
 
   initialize() {

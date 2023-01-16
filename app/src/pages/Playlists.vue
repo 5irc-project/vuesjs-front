@@ -8,9 +8,9 @@
           <List>
             <Item
               v-for="playlist in myGeneratedPlaylists"
-              :key="playlist.id"
+              :key="playlist.playlistId"
               :imageSrc="playlist.imageSrc"
-              :title="playlist.title"
+              :title="playlist.playlistName"
               :description="playlist.description"
               @click="redirect(playlist)"
             />
@@ -20,9 +20,9 @@
           <List>
             <Item
               v-for="playlist in playlists"
-              :key="playlist.id"
+              :key="playlist.playlistId"
               :imageSrc="playlist.imageSrc"
-              :title="playlist.title"
+              :title="playlist.playlistName"
               :description="playlist.description"
               @click="redirect(playlist)"
             />
@@ -47,7 +47,7 @@ const router = useRouter();
 const playlistService = inject(playlistServiceKey);
 
 function redirect(playlist) {
-  router.push({ name: "playlist",  params: { id: playlist?.id }});
+  router.push({ name: "playlist",  params: { id: playlist?.playlistId }});
 }
 
 const playlists = ref([]);

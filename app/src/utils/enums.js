@@ -1,4 +1,9 @@
 export const ROLES = {
   ADMINISTRATEUR: "ADMINISTRATEUR",
   USER: "USER"
-}.freeze();
+};
+
+export const PLAYLIST_KIND = {
+  GENERATED: 1,
+  MANUAL: 2
+};

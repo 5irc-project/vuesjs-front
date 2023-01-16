@@ -3,7 +3,7 @@
     <div class="page__header">
       <img :src="playlist.imageSrc" />
       <div class="page__header-informations">
-        <h1>{{ playlist.title }}</h1>
+        <h1>{{ playlist.playlistName }}</h1>
         <Button
           v-if="playlist.isGenerated"
           type="button"
@@ -20,9 +20,9 @@
       <SearchBar placeholder="Search a music" />
       <List>
         <Item
-          v-for="music in playlist.musics"
-          :key="music.id"
-          :title="music.title"
+          v-for="music in playlist.tracks"
+          :key="music.trackId"
+          :title="music.trackName"
           :description="music.description"
           @click="play(music)"
         />

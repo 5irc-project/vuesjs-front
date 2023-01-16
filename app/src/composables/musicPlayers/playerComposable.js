@@ -61,6 +61,23 @@ export default function usePlayer() {
     await musicService.nextTrack();
   }
 
-  return { musicState, isLoaded, artists, title, img, position, duration, playIcon, device, togglePlay, previousTrack, nextTrack };
+  function play() {
+    musicService.play();
+  }
+  function pause() {
+    musicService.pause();
+  }
+  function playTrack(track) {
+    return musicService.playTrack(track);
+  }
+
+  function search(query) {
+    return musicService.search(query);
+  }
+  function searchByMusic(music) {
+    return musicService.search(music.trackName + " " + music.artistName);
+  }
+
+  return { musicState, isLoaded, artists, title, img, position, duration, playIcon, device, play, pause, playTrack, search, searchByMusic, togglePlay, previousTrack, nextTrack };
 }
 

@@ -1,87 +1,31 @@
 import ApiService from "@/services/ApiService";
 import { playlistServiceKey } from "@/serviceKeys";
+import { PLAYLIST_KIND } from "@/utils/enums";
 
-const controller = "playlist";
+const controller = "api/Playlist";
 
 export default class PlaylistService extends ApiService {
   constructor() {
-    super(controller, playlistServiceKey);
+    super(controller, playlistServiceKey, "https://localhost:7153");
   }
 
   async getMyPlaylists() {
-    return new Promise((resolve) => {
-      resolve([
-        {
-          imageSrc: "/images/image.PNG",
-          title: "Title",
-          description: "Description",
-          id: 123,
-          isGenerated: true
-        },
-        {
-          imageSrc: "/images/image.PNG",
-          title: "Title",
-          description: "Description",
-          id: 124,
-          isGenerated: false
-        },
-        {
-          imageSrc: "/images/image.PNG",
-          title: "Title",
-          description: "Description",
-          id: 125,
-          isGenerated: true
-        },
-        {
-          imageSrc: "/images/image.PNG",
-          title: "Title",
-          description: "Description",
-          id: 129,
-          isGenerated: true
-        },
-        {
-          imageSrc: "/images/image.PNG",
-          title: "Title",
-          description: "Description",
-          id: 120,
-          isGenerated: false
-        },
-        {
-          imageSrc: "/images/image.PNG",
-          title: "Title",
-          description: "Description",
-          id: 121,
-          isGenerated: true
-        },
-      ]);
-    });
+    const userId = 0;
+    const { data } = await this.get(`User/${userId}`);
+    return data || [];
   }
 
-  getById(id) {
-    return new Promise((resolve) => {
-      resolve({
-        imageSrc: "/images/image.PNG",
-        title: "Title",
-        description: "Description",
-        id: id,
-        isGenerated: true,
-        musics: [
-          {
-            title: "Title",
-            description: "Description",
-            id: id,
-          }
-        ]
-      });
-    });
+  async getById(id) {
+    const { data } = await this.get(`${id}`);
+    return data;
   }
 
 
   async getSeparatedPlaylists() {
     const playlists = await this.getMyPlaylists();
 
-    const myPlaylists = playlists.filter(p => p.isGenerated === false);
-    const generatedPlaylists = playlists.filter(p => p.isGenerated === true);
+    const myPlaylists = playlists.filter(p => p.kindId === PLAYLIST_KIND.MANUAL);
+    const generatedPlaylists = playlists.filter(p => p.kindId === PLAYLIST_KIND.GENERATED);
 
     return { myPlaylists, generatedPlaylists };
   }

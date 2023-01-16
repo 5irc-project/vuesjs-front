@@ -14,6 +14,7 @@
           icon="pi pi-times"
           class="p-button-rounded p-button-text p-button-danger"
           @click="dontLike"
+          style="width: 60px; height: 60px;"
         />
         <Button
           @click="togglePlay"
@@ -29,9 +30,15 @@
 </template>
 
 <script setup>
+import { onMounted, inject } from "vue";
 import Player from "@/components/shared/music/Player.vue";
 import LikeButton from "@/components/shared/buttons/LikeButton.vue";
+
 import usePlayer from "@/composables/musicPlayers/playerComposable";
+import { musicServiceKey } from "@/serviceKeys";
+
+const musicService = inject(musicServiceKey);
+
 
 const {
   isLoaded,
@@ -41,14 +48,32 @@ const {
   position,
   duration,
   playIcon,
+  playTrack,
+  searchByMusic,
   togglePlay,
+  pause,
+  play
 } = usePlayer();
+
+onMounted(() => {
+  next();
+})
 
 function like() {
   console.log("like ❤️");
+  next();
 }
 
 function dontLike() {
   console.log("don't like 💩");
+  next();
+}
+
+async function next() {
+  pause();
+  const music = await musicService.getRandom();
+  const track = await searchByMusic(music);
+  await playTrack(track.uri);
+  play();
 }
 </script>

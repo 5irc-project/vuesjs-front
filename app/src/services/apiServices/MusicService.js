@@ -1,23 +1,25 @@
 import ApiService from "@/services/ApiService";
 import { musicServiceKey } from "@/serviceKeys";
 
-const controller = "music";
+const controller = "api/Track";
 
 export default class MusicService extends ApiService {
   constructor() {
-    super(controller, musicServiceKey);
+    super(controller, musicServiceKey, "https://localhost:7153");
   }
 
-  getById(id) {
-    return new Promise((resolve) => {
-      resolve({
-        imageSrc: "images/image.PNG",
-        title: "Duality",
-        artists: "Slipknot",
-        description: "Description",
-        id: id,
-        isGenerated: true
-      });
-    });
+  async getById(id) {
+    const { data } = await this.get(`${id}`);
+    return data;
+  }
+
+  async getListByQuery(query) {
+    const { data } = await this.get(`NameQuery/${query}`);
+    return data;
+  }
+
+  async getRandom() {
+    const { data } = await this.get(`random`);
+    return data;
   }
 }
