@@ -1,10 +1,10 @@
 import Http from "@/utils/Http";
 import { useUserStore } from "@/store/modules/user";
 
-const url = document.env.VUE_APP_API_BASE_URL;
+const BASE_URL = document.env.VUE_APP_API_BASE_URL;
 
 export default class ApiService extends Http {
-  constructor(controller, key) {
+  constructor(controller, key, url = BASE_URL) {
     super(`${url}/${controller}`);
 
     this.http.interceptors.request.use(config => this.authorize(config));

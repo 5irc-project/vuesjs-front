@@ -1,15 +1,15 @@
 import ApiService from "./ApiService";
 import { authServiceKey } from "@/serviceKeys";
 
-const controller = "app/auth";
+const controller = "";
 
 export default class AuthService extends ApiService {
   constructor() {
-    super(controller, authServiceKey);
-  }
+    super(controller, authServiceKey, "https://localhost:7091");
+  } 
   
-  authenticate(email, password) {
-    return this.post("/authenticate", { email, password });
+  authSpotify() {
+    return this.get("/auth");
   }
 
   getSecret() {

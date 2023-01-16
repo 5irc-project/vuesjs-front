@@ -2,6 +2,7 @@
   <div class="layout-main">
     <div class="layout">
       <router-view />
+
       <AppMenu />
     </div>
   </div>
@@ -9,5 +10,4 @@
 
 <script setup>
 import AppMenu from './AppMenu.vue'
-
 </script>

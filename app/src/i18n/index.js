@@ -1,12 +1,12 @@
 import { createI18n } from "vue-i18n";
 
-//import en from "./locales/en.json";
+import en from "./locales/en.json";
 import fr from "./locales/fr.json";
 
 export const defaultLocale = document.env.VUE_APP_I18N_LOCALE;
 
 export const languages = {
-  //en,
+  en,
   fr,
 };
 

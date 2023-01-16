@@ -30,6 +30,8 @@ import DataTable from "primevue/datatable";
 import DataView from "primevue/dataview";
 import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
 import Dialog from "primevue/dialog";
+import DialogService from 'primevue/dialogservice';
+import DynamicDialog from 'primevue/dynamicdialog';
 import Divider from "primevue/divider";
 import Dropdown from "primevue/dropdown";
 import Fieldset from "primevue/fieldset";
@@ -96,6 +98,7 @@ export default {
     app.use(PrimeVue, { ripple: true, inputStyle: "outlined" });
     app.use(ConfirmationService);
     app.use(ToastService);
+    app.use(DialogService);
 
     app.directive("tooltip", Tooltip);
     app.directive("ripple", Ripple);
@@ -126,6 +129,7 @@ export default {
     app.component("DataView", DataView);
     app.component("DataViewLayoutOptions", DataViewLayoutOptions);
     app.component("Dialog", Dialog);
+    app.component("DynamicDialog", DynamicDialog);
     app.component("Divider", Divider);
     app.component("Dropdown", Dropdown);
     app.component("Fieldset", Fieldset);

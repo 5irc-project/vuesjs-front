@@ -1,0 +1,12 @@
+{
+  "shared": {
+    "profil": "Profil",
+    "disconnect": "Disconnect",
+    "home": "Home",
+    "search": "Search",
+    "playlists": "Playlists"
+  },
+  "playlist": {
+    "validate": "Validate"
+  }
+}

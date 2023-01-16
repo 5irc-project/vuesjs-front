@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 import routes from "./routes";
 
-// import { useUserStore } from '@/store/modules/user';
+import { useUserStore } from '@/store/modules/user';
 // import { ROLES } from "./utils/enums";
 
-// const appUserAuthentication = !!document.env.VUE_APP_USER_AUTHENTICATION && document.env.VUE_APP_USER_AUTHENTICATION === "true";
+const appUserAuthentication = !!document.env.VUE_APP_USER_AUTHENTICATION && document.env.VUE_APP_USER_AUTHENTICATION === "true";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -13,10 +13,9 @@ const router = createRouter({
 
 
 // TODO: add directy inside routes
-/*router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {
   if(appUserAuthentication === false) {
-    next();
-    return;
+    return next();
   }
 
   const userStore = useUserStore();
@@ -35,6 +34,6 @@ const router = createRouter({
   }
 
   next();
-});*/
+});
 
 export default router;
