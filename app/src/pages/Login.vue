@@ -20,19 +20,25 @@
 
 <script setup>
 import { inject } from "vue";
-import { musicPlayerStoreKey, authServiceKey } from "@/serviceKeys";
+import { musicPlayerStoreKey, authServiceKey, userStoreKey } from "@/serviceKeys";
 import { useRoute } from "vue-router";
 
 const musicPlayerStore = inject(musicPlayerStoreKey);
+const userStore = inject(userStoreKey);
 const authService = inject(authServiceKey);
 const route = useRoute();
 
-const accessToken = route.query.accessToken;
-// const refreshToken = route.query.refreshToken;
-// const jwtToken = route.query.jwtToken;
+const spotifyTokens = {
+  accessToken: route.query.accessToken,
+  refreshToken: route.query.refreshToken
+}
+const jwtToken = route.query.jwtToken;
 
-if (accessToken) {
-  window.opener.spotifyCallback(accessToken);
+if (spotifyTokens.accessToken) {
+  window.opener.spotifyCallback(spotifyTokens);
+}
+if(jwtToken) {
+  userStore.login(jwtToken);
 }
 
 function login() {
@@ -41,6 +47,9 @@ function login() {
 </script>
 
 <style scoped lang="scss">
+.login {
+  height: 100% !important;
+}
 .login__main {
   height: 100%;
   display: flex;

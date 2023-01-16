@@ -4,8 +4,7 @@
     viewBox="467 392 58 57"
     xmlns="http://www.w3.org/2000/svg"
     ref="svg"
-    @click="toggle"
-    :class="{'active': active}"
+    :class="{'active': isActive}"
   >
     <g
       id="Group"
@@ -66,17 +65,22 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { defineProps, computed } from "vue";
 
-const active = ref(false);
+const props = defineProps({
+  modelValue: Boolean,
+});
 
-function toggle() {
-  active.value = !active.value;
-}
+const emit = defineEmits(["update:modelValue"]);
 
-function reset() {
-  active.value = false;
-}
+const isActive = computed({
+  get() {
+    return props.modelValue;
+  },
+  set(value) {
+    emit(`update:modelValue`, value);
+  },
+});
 </script>
 
 

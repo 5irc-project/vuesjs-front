@@ -1,5 +1,4 @@
 import router from "@/router";
-import { useUserStore } from "@/store/modules/user";
 import { useMusicPlayerStore } from "@/store/modules/musicPlayer";
 import MusicPlayerService from "./MusicPlayerService";
 
@@ -9,24 +8,25 @@ export default class SpotifyService extends MusicPlayerService {
     super(document.env.VUE_APP_SPOTIFY_BASE_URL);
 
     this.http.interceptors.request.use(config => this.authorize(config));
-
-    this.client_id = document.env.VUE_APP_SPOTIFY_CLIENT_ID;
-    this.redirect_uri = document.env.VUE_APP_SPOTIFY_REDIRECT_URI;
-    this.scopes = document.env.VUE_APP_SPOTIFY_SCOPES;
-    this.token = this.userStore.getToken;
+    
+    this.setTokens(this.userStore.getSpotifyTokens);
 
     this.deviceChangedCallback;
+  }
 
-    if (!this.scopes || !this.redirect_uri || !this.client_id) {
-      console.warn("Spotify environment variables undefined !");
-    }
+  setTokens(tokens) {
+    this.tokens = tokens;
+    this.accessToken = this.tokens?.accessToken;
+    this.refreshToken = this.tokens?.refreshToken;
+
+    this.userStore.setSpotifyTokens(tokens);
   }
 
   authorize(config) {
     try {
-      if (this.token) {
+      if (this.accessToken) {
         config.headers["Content-Type"] = "application/json";
-        config.headers["Authorization"] = `Bearer ${this.token}`;
+        config.headers["Authorization"] = `Bearer ${this.accessToken}`;
       }
     } catch (error) {
       console.error(error);
@@ -72,22 +72,14 @@ export default class SpotifyService extends MusicPlayerService {
   }
 
 
-
   async login(authService) {
     const { data } = await authService.authSpotify();
     const popup = window.open(data, 'Login with Spotify', 'width=800,height=600')
 
-    window.spotifyCallback = async (payload) => {
+    window.spotifyCallback = async (tokens) => {
       popup.close();
 
-      this.token = payload;
-      const { data } = await this.getProfil();
-
-      const userStore = useUserStore();
-      userStore.setUser({
-        ...data,
-        token: payload
-      });
+      this.setTokens(tokens);
 
       this.createPlayer();
       router.push({ name: "match" });
@@ -108,12 +100,10 @@ export default class SpotifyService extends MusicPlayerService {
   }
 
   createPlayer() {
-    const userStore = useUserStore();
-
     // eslint-disable-next-line
     this.player = new this.PlayerClass({
       name: 'Web Playback SDK Quick Start Player',
-      getOAuthToken: cb => { cb(userStore.getToken); }
+      getOAuthToken: cb => { cb(this.accessToken); }
     });
 
     this.player.addListener('ready', async ({ device_id }) => {

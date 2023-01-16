@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { authService } from "@/services";
+import { userService } from "@/services";
 import { useStorage } from "@vueuse/core";
 
 export const useUserStore = defineStore("user", {
@@ -9,7 +9,7 @@ export const useUserStore = defineStore("user", {
   getters: {
     getUser: (state) => state.user,
     getRole: (state) => state.user.role,
-    getToken: (state) => state.user.token,
+    getSpotifyTokens: (state) => state.user.spotifyTokens,
     isLoggedIn: (state) => Object.keys(state.user).length > 0,
     isAuthorized() {
       return (profils) => {
@@ -29,17 +29,23 @@ export const useUserStore = defineStore("user", {
     resetUser() {
       this.user = {};
     },
+    setSpotifyTokens(spotifyTokens) {
+      this.user.spotifyTokens = spotifyTokens;
+    },
 
     // actions
-    async login(email, password) {
+    async login(jwtToken) {
       this.resetUser();
-      const response = await authService.authenticate(email, password);
+      
+      this.setUser({
+        jwtToken
+      });
+      const user = await userService.getProfil();
 
-      if (response.status === 401) {
-        throw new Error(response.statusText);
-      }
-
-      this.setUser(response.data);
+      this.setUser({
+        ...user,
+        jwtToken
+      });
     },
     logout() {
       this.resetUser();

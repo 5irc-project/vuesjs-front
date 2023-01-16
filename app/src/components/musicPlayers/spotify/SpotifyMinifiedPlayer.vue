@@ -27,8 +27,6 @@ const devices = ref([]);
 function updateDevices() {
   spotifyService.getDevices().then(({ data }) => {
     devices.value = data.devices;
-  
-    console.log(currentDevice.value);
   });
 }
 updateDevices();

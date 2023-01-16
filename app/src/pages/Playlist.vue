@@ -18,16 +18,16 @@
     </div>
     <div class="page__playlists">
       <SearchBar placeholder="Search a music" />
-      <List>
-        <Item
-          v-for="music in playlist.tracks"
-          :key="music.trackId"
-          :title="music.trackName"
-          :description="music.description"
-          @click="play(music)"
-        />
-      </List>
     </div>
+    <List>
+      <Item
+        v-for="music in playlist.tracks"
+        :key="music.trackId"
+        :title="music.trackName"
+        :description="music.artistName"
+        @click="play(music)"
+      />
+    </List>
   </div>
 </template>
 
@@ -58,7 +58,7 @@ function play(music) {
   router.push({
     name: "player",
     params: {
-      id: music.id
+      id: music.trackId
     }
   })
 }

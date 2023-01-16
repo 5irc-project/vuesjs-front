@@ -10,4 +10,5 @@ export const i18nKey = Symbol();
 export const authServiceKey = Symbol();
 export const userServiceKey = Symbol();
 export const musicServiceKey = Symbol();
+export const recommendationServiceKey = Symbol();
 export const playlistServiceKey = Symbol();

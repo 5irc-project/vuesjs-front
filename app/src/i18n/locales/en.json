@@ -8,5 +8,8 @@
   },
   "playlist": {
     "validate": "Validate"
+  },
+  "discovery": {
+    "creating": "We’re creating your new playlist based on your choices. We’ll notify you when it’s ready."
   }
 }
