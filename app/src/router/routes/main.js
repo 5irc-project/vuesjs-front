@@ -21,6 +21,11 @@ export default [
         name: "discovery",
         component: () => import("@/pages/Discovery.vue")
       },
+      {
+        path: "/mood",
+        name: "mood",
+        component: () => import("@/pages/Mood.vue")
+      },
 
       // playlist
       {
