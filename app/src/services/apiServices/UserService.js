@@ -9,7 +9,19 @@ export default class UserService extends ApiService {
   }
 
   async getProfil() {
-    const { data } = await this.get('profil');
-    return data;
+    return {
+      userId: 1,
+      nom: 'Mathis FIGUET',
+      email: 'mathis.figuet@orange.fr',
+      profilePictureUrl: 'https://t4.ftcdn.net/jpg/04/02/23/77/360_F_402237751_GdcaONhARorU2e7CytlX67npqOfyFhqL.jpg'
+    }
+  }
+
+  async updateProfil(profil) {
+    return profil;
+  }
+
+  async deleteProfil() {
+    return;
   }
 }
