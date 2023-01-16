@@ -73,6 +73,10 @@ const active = ref(false);
 function toggle() {
   active.value = !active.value;
 }
+
+function reset() {
+  active.value = false;
+}
 </script>
 
 
