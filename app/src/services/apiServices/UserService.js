@@ -1,11 +1,11 @@
 import ApiService from "@/services/ApiService";
 import { userServiceKey } from "@/serviceKeys";
 
-const controller = "user";
+const controller = "api/users";
 
 export default class UserService extends ApiService {
   constructor() {
-    super(controller, userServiceKey);
+    super(controller, userServiceKey, "https://localhost:7008");
   }
 
   async getProfil() {
