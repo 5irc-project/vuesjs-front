@@ -32,14 +32,17 @@
       
     </div>
     <Button @click="logout" :label="$t('shared.disconnect')" icon="pi pi-sign-out" class="p-button-secondary m-button" />
-    <Button @click="deleteAccount" :label="$t('profil.delete')" icon="pi pi-times" class="p-button-danger m-button" />
+    <Button @click="deleteAction" :label="$t('profil.delete')" icon="pi pi-times" class="p-button-danger m-button" />
+    <ConfirmPopup></ConfirmPopup>
   </div>
 </template>
 
 <script setup>
 import { inject, ref } from "vue";
+import { useConfirm } from "primevue/useconfirm";
 import { userStoreKey, musicPlayerStoreKey } from "@/serviceKeys";
 
+const confirm = useConfirm();
 const userStore = inject(userStoreKey);
 const musicPlayerStore = inject(musicPlayerStoreKey);
 
@@ -51,12 +54,27 @@ function logout() {
   musicPlayerService.logout();
 }
 
+function deleteAction(event) {
+  confirm.require({
+    target: event.currentTarget,
+    message: 'Are you sure you want to proceed?',
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      confirm.close();
+      deleteAccount();
+    },
+    reject: () => {
+      confirm.close();
+    },
+  });
+}
+
 async function deleteAccount() {
   userStore.deleteAccount();
 }
 
 function saveUser() {
-  userStore.updateUser(user);
+  userStore.updateUser(user.value);
 }
 
 userStore.refreshUserProfil().then(() => {

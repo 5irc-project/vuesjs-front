@@ -19,6 +19,6 @@ export default class UserService extends ApiService {
   }
 
   async deleteProfil() {
-    return await this.delete('');
+    return await this.delete('delete');
   }
 }

@@ -1,6 +1,7 @@
 import ApiService from "@/services/ApiService";
 import { playlistServiceKey } from "@/serviceKeys";
 import { PLAYLIST_KIND } from "@/utils/enums";
+import { useUserStore } from "@/store/modules/user";
 
 const controller = "api/Playlist";
 
@@ -10,7 +11,7 @@ export default class PlaylistService extends ApiService {
   }
 
   async getMyPlaylists() {
-    const userId = 1;
+    const userId = useUserStore().getUserId;
     const { data } = await this.get(`User/${userId}`);
     return data || [];
   }
@@ -64,7 +65,6 @@ export default class PlaylistService extends ApiService {
 
   async getAvailablePlaylists(musicId) {
     const { data } = await this.get(`Trackless/${musicId}`);
-    console.log(data)
     return data;
   }
 }

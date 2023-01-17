@@ -82,6 +82,7 @@ export default class SpotifyService extends MusicPlayerService {
       this.setTokens(tokens);
 
       this.createPlayer();
+
       router.push({ name: "match" });
     }
   }
@@ -129,6 +130,7 @@ export default class SpotifyService extends MusicPlayerService {
 
     this.player.addListener('authentication_error', ({ message }) => {
       console.error(message);
+      this.userStore.logout();
     });
 
     this.player.addListener('account_error', ({ message }) => {

@@ -1,25 +1,62 @@
 <template>
   <div class="page">
     <div class="player__header">
-      <Button icon="pi pi-angle-left" class="p-button-rounded p-button-text p-button-lg" @click="previous" />
+      <Button
+        icon="pi pi-angle-left"
+        class="p-button-rounded p-button-text p-button-lg"
+        @click="previous"
+      />
       <i class="b-list__item__action pi pi-ellipsis-v" @click="openSidebar" />
     </div>
     <MusicPlayer />
 
-    <Sidebar v-model:visible="sidebar" :baseZIndex="10000" position="bottom" class="sidebar">
-      <h3>{{ $t('shared.options') }}</h3>
-      <Button @click="addToAPlaylist" :label="$t('music.addToAPlaylist')" icon="pi pi-plus" class="p-button-success" />
-      <Button @click="addToFav" :label="$t('music.addToFav')" icon="pi pi-star" class="p-button-help" />
+    <Sidebar
+      v-model:visible="sidebar"
+      :baseZIndex="10000"
+      position="bottom"
+      class="sidebar"
+    >
+      <h3>{{ $t("shared.options") }}</h3>
+      <Button
+        @click="addToAPlaylist"
+        :label="$t('music.addToAPlaylist')"
+        icon="pi pi-plus"
+        class="p-button-success"
+      />
+      <Button
+        @click="addToFav"
+        :label="$t('music.addToFav')"
+        icon="pi pi-star"
+        class="p-button-help"
+      />
     </Sidebar>
 
-    <Sidebar v-model:visible="sidebarAddToPlaylist" :baseZIndex="10001" position="full" class="sidebar">
-      <h3>{{ $t('music.pickPlaylist') }}</h3>
-      <List>
-        <Item v-for="playlist in playlists" :key="playlist.playlistId" :imageSrc="playlist.imageSrc"
-          :title="playlist.playlistName" :description="playlist.description"
-          @click="addToPlaylist(playlist)" />
-        </List>
+    <Sidebar
+      v-model:visible="sidebarAddToPlaylist"
+      :baseZIndex="10001"
+      position="full"
+      class="sidebar"
+    >
+      <h3>{{ $t("music.pickPlaylist") }}</h3>
+      <List style="height: 100%;">
+        <Item
+          v-for="playlist in playlists"
+          :key="playlist.playlistId"
+          :imageSrc="playlist.imageSrc"
+          :title="playlist.playlistName"
+          :description="playlist.description"
+          @click="addToPlaylist(playlist)"
+        />
+        <Button
+          @click="openCreatePlaylist"
+          :label="$t('playlist.create')"
+          icon="pi pi-plus"
+          class="p-button-success"
+        />
+      </List>
     </Sidebar>
+
+    <CreatePlaylist v-model="sidebarCreatePlaylist" @close="updatePlaylists" />
   </div>
 </template>
 
@@ -27,10 +64,15 @@
 import List from "@/components/shared/list/List.vue";
 import Item from "@/components/shared/list/Item.vue";
 import MusicPlayer from "@/components/shared/music/MusicPlayer";
+import CreatePlaylist from "@/components/shared/playlist/CreatePlaylist.vue";
 
 import { ref, inject } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { musicServiceKey, musicPlayerStoreKey, playlistServiceKey } from "@/serviceKeys";
+import {
+  musicServiceKey,
+  musicPlayerStoreKey,
+  playlistServiceKey,
+} from "@/serviceKeys";
 
 const route = useRoute();
 const router = useRouter();
@@ -45,17 +87,19 @@ const sidebar = ref(false);
 musicService.getById(route.params.id).then(async (m) => {
   music.value = m;
 
-  const toPlay = await musicPlayerService.search(music.value.trackName + " " + music.value.artistName);
+  const toPlay = await musicPlayerService.search(
+    music.value.trackName + " " + music.value.artistName
+  );
   await musicPlayerService.playTrack(toPlay.uri);
 });
-
 
 function previous() {
   if (musicPlayerService.hasCurrentPlaylist) {
     return router.push({
-      name: "playlist", params: {
-        id: musicPlayerService.getCurrentPlaylist.playlistId
-      }
+      name: "playlist",
+      params: {
+        id: musicPlayerService.getCurrentPlaylist.playlistId,
+      },
     });
   }
 
@@ -69,9 +113,7 @@ function closeSidebar() {
   sidebar.value = false;
 }
 
-function addToFav() {
-
-}
+function addToFav() {}
 
 function addToAPlaylist() {
   sidebarAddToPlaylist.value = true;
@@ -79,18 +121,24 @@ function addToAPlaylist() {
   updatePlaylists();
 }
 
-
-
 const sidebarAddToPlaylist = ref(false);
 const playlists = ref([]);
 
 async function updatePlaylists() {
-  playlists.value = await playlistService.getAvailablePlaylists(music.value.trackId);
+  playlists.value = await playlistService.getAvailablePlaylists(
+    music.value.trackId
+  );
 }
 
 async function addToPlaylist(playlist) {
   await playlistService.addTrackFromPlaylist(playlist, music.value);
   sidebarAddToPlaylist.value = false;
+}
+
+const sidebarCreatePlaylist = ref(false);
+
+function openCreatePlaylist() {
+  sidebarCreatePlaylist.value = true;
 }
 </script> 
 
@@ -116,7 +164,7 @@ async function addToPlaylist(playlist) {
 .sidebar {
   button {
     width: 100%;
-    margin: .25rem 0;
+    margin: 0.25rem 0;
   }
 }
 </style>

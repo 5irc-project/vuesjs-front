@@ -33,13 +33,18 @@ const spotifyTokens = {
   refreshToken: route.query.refreshToken
 }
 const jwtToken = route.query.jwtToken;
+loginInit();
 
-if(jwtToken) {
-  userStore.login(jwtToken);
+async function loginInit() {
+  if(jwtToken) {
+    await userStore.login(jwtToken);
+  }
+
+  if (spotifyTokens.accessToken) {
+    window.opener.spotifyCallback(spotifyTokens);
+  }
 }
-if (spotifyTokens.accessToken) {
-  window.opener.spotifyCallback(spotifyTokens);
-}
+
 
 function login() {
   musicPlayerStore.getService.login(authService);

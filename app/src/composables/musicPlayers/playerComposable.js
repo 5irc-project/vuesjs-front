@@ -21,7 +21,7 @@ export default function usePlayer() {
   });
   
   const artists = computed(() => {
-    return musicState.value.context?.metadata.current_item.artists.reduce(
+    return musicState.value.context?.metadata.current_item?.artists.reduce(
       (string, newArtist) =>
         (string += string != "" ? `, ${newArtist.name}` : newArtist.name),
       ""
@@ -29,11 +29,11 @@ export default function usePlayer() {
   });
   
   const title = computed(() => {
-    return musicState.value.context?.metadata.current_item.name;
+    return musicState.value.context?.metadata.current_item?.name;
   });
   
   const img = computed(() => {
-    return musicState.value.context?.metadata.current_item.images[2].url;
+    return musicState.value.context?.metadata.current_item?.images[2]?.url;
   });
   
   const position = computed({

@@ -11,6 +11,7 @@ export const useUserStore = defineStore("user", {
   }),
   getters: {
     getUser: (state) => state.user,
+    getUserId: (state) => state.user.userId,
     getRole: (state) => state.user.role,
     getSpotifyTokens: (state) => state.spotifyTokens,
     getAuthToken: (state) => state.authToken,
