@@ -6,10 +6,18 @@ export default function usePlayer() {
   const musicPlayerStore = inject(musicPlayerStoreKey);
   const musicService = musicPlayerStore.getService;
   
-  const { musicState, repeatMode } = storeToRefs(musicPlayerStore);
+  const { musicState } = storeToRefs(musicPlayerStore);
   
   const isLoaded = computed(() => {
     return musicState.value;
+  });
+
+  const isDefaultMode = computed(() => {
+    return musicPlayerStore.isDefaultMode;
+  });
+
+  const isShuffleMode = computed(() => {
+    return musicPlayerStore.isShuffleMode;
   });
   
   const artists = computed(() => {
@@ -42,8 +50,16 @@ export default function usePlayer() {
   });
 
   watch(position, (newPosition) => {
-    if(repeatMode.value === false && newPosition === duration.value) {
+    if(newPosition !== duration.value)
+      return;
+
+    if(isDefaultMode.value) {
       nextTrack();
+    }
+
+    if(isShuffleMode.value) {
+      const music = musicPlayerStore.getRandomMusic;
+      playMusicByDto(music);
     }
   })
   
@@ -104,10 +120,6 @@ export default function usePlayer() {
     musicPlayerStore.setCurrentMusic(music);
   }
 
-  function toggleRepeatMode() {
-    return musicPlayerStore.toggleRepeatMode();
-  }
-
-  return { musicState, isLoaded, artists, title, img, position, duration, playIcon, device, repeatMode, play, playMusicByDto, pause, playTrack, search, searchByMusic, togglePlay, previousTrack, nextTrack, toggleRepeatMode };
+  return { musicState, isLoaded, artists, title, img, position, duration, playIcon, device, play, playMusicByDto, pause, playTrack, search, searchByMusic, togglePlay, previousTrack, nextTrack };
 }
 

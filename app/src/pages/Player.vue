@@ -11,21 +11,33 @@
       <Button @click="addToAPlaylist" :label="$t('music.addToAPlaylist')" icon="pi pi-plus" class="p-button-success" />
       <Button @click="addToFav" :label="$t('music.addToFav')" icon="pi pi-star" class="p-button-help" />
     </Sidebar>
+
+    <Sidebar v-model:visible="sidebarAddToPlaylist" :baseZIndex="10001" position="full" class="sidebar">
+      <h3>{{ $t('music.pickPlaylist') }}</h3>
+      <List>
+        <Item v-for="playlist in playlists" :key="playlist.playlistId" :imageSrc="playlist.imageSrc"
+          :title="playlist.playlistName" :description="playlist.description"
+          @click="addToPlaylist(playlist)" />
+        </List>
+    </Sidebar>
   </div>
 </template>
 
 <script setup>
+import List from "@/components/shared/list/List.vue";
+import Item from "@/components/shared/list/Item.vue";
 import MusicPlayer from "@/components/shared/music/MusicPlayer";
 
 import { ref, inject } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { musicServiceKey, musicPlayerStoreKey } from "@/serviceKeys";
+import { musicServiceKey, musicPlayerStoreKey, playlistServiceKey } from "@/serviceKeys";
 
 const route = useRoute();
 const router = useRouter();
 const musicService = inject(musicServiceKey);
 const musicPlayerStore = inject(musicPlayerStoreKey);
 const musicPlayerService = musicPlayerStore.getService;
+const playlistService = inject(playlistServiceKey);
 
 var music = ref({});
 const sidebar = ref(false);
@@ -53,13 +65,34 @@ function previous() {
 function openSidebar() {
   sidebar.value = true;
 }
-
-function addToAPlaylist() {
-  
+function closeSidebar() {
+  sidebar.value = false;
 }
 
 function addToFav() {
 
+}
+
+function addToAPlaylist() {
+  sidebarAddToPlaylist.value = true;
+  closeSidebar();
+}
+
+
+
+const sidebarAddToPlaylist = ref(false);
+const playlists = ref([]);
+
+async function updatePlaylists() {
+  const { myPlaylists } = await playlistService.getSeparatedPlaylists();
+
+  playlists.value = myPlaylists;
+}
+updatePlaylists();
+
+async function addToPlaylist(playlist) {
+  await playlistService.addTrackFromPlaylist(playlist, music.value);
+  sidebarAddToPlaylist.value = false;
 }
 </script> 
 

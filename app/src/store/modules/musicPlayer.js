@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import SpotifyService from "@/services/musicPlayerServices/SpotifyService";
+import { PLAY_MODE } from "@/utils/enums";
 
 export const useMusicPlayerStore = defineStore("musicPlayer", {
   state: () => ({
@@ -8,7 +9,7 @@ export const useMusicPlayerStore = defineStore("musicPlayer", {
 
     currentMusic: null,
     currentPlaylist: null,
-    repeatMode: false
+    playMode: PLAY_MODE.DEFAULT
   }),
   getters: {
     getService: (state) => state.service, 
@@ -16,7 +17,7 @@ export const useMusicPlayerStore = defineStore("musicPlayer", {
     
     getCurrentMusic: (state) => state.currentMusic,
     getCurrentPlaylist: (state) => state.currentPlaylist,
-    getRepeatMode: (state) => state.repeatMode,
+    getPlayMode: (state) => state.playMode,
     hasCurrentMusic() {
       return this.getCurrentMusic !== null;
     },
@@ -51,6 +52,20 @@ export const useMusicPlayerStore = defineStore("musicPlayer", {
       const previous = (i - 1) % this.getCurrentPlaylist.tracks.length;
       return this.getCurrentPlaylist.tracks[previous];
     },
+    getRandomMusic() {
+      const i = Math.floor(Math.random() * this.getCurrentPlaylist.tracks.length);
+      return this.getCurrentPlaylist.tracks[i];
+    },
+
+    isRepeatMode() {
+      return this.playMode === PLAY_MODE.REPEAT;
+    },
+    isShuffleMode() {
+      return this.playMode === PLAY_MODE.SHUFFLE;
+    },
+    isDefaultMode() {
+      return this.playMode === PLAY_MODE.DEFAULT;
+    },
   },
   actions: {
     setState(musicState) {
@@ -71,11 +86,22 @@ export const useMusicPlayerStore = defineStore("musicPlayer", {
       this.currentPlaylist = null;
     },
 
-    setRepeatMode(repeatMode) {
-      this.repeatMode = repeatMode;
+    setPlayMode(playMode) {
+      this.playMode = playMode;
     },
     toggleRepeatMode() {
-      this.repeatMode = !this.repeatMode;
+      if(this.isRepeatMode) {
+        this.setPlayMode(PLAY_MODE.DEFAULT);
+      } else {
+        this.setPlayMode(PLAY_MODE.REPEAT);
+      }
+    },
+    toggleShuffleMode() {
+      if(this.isShuffleMode) {
+        this.setPlayMode(PLAY_MODE.DEFAULT);
+      } else {
+        this.setPlayMode(PLAY_MODE.SHUFFLE);
+      }
     }
   },
 });

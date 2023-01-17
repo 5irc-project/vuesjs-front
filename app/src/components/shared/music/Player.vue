@@ -16,6 +16,9 @@
       />
       <span class="player__time__total">{{ $ft(props.duration) }}</span>
     </div>
+    <div class="player__tools">
+      <slot name="tools"></slot>
+    </div>
     <div class="player__actions">
       <slot name="actions"></slot>
     </div>

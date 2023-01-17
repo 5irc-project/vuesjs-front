@@ -14,6 +14,11 @@
           badgeClass="p-badge-danger"
           @click="validate"
         />
+        <div class="page__header-informations__filters">
+          <Button icon="pi pi-sort-alpha-down" class="p-button-rounded p-button-outlined" @click="sortArtistName" />
+          <Button icon="pi pi-sort-alpha-down" class="p-button-rounded p-button-outlined" @click="sortArtistName" />
+          <Button icon="pi pi-sort-alpha-down" class="p-button-rounded p-button-outlined" @click="sortTrackName" />
+        </div>
       </div>
     </div>
     <div class="page__playlists">
@@ -92,6 +97,25 @@ async function removeFromPlaylist() {
   updatePlaylist();
 
   closeSidebar();
+}
+
+function sortArtistName() {
+  playlist.value.tracks = sortByAlphabetical(playlist.value.tracks, "artistName");
+}
+function sortTrackName() {
+  playlist.value.tracks = sortByAlphabetical(playlist.value.tracks, "trackName");
+}
+
+function sortByAlphabetical(array, propertyPath) {
+  return array.sort(function (a, b) {
+    if (a[propertyPath] < b[propertyPath]) {
+      return -1;
+    }
+    if (a[propertyPath] > b[propertyPath]) {
+      return 1;
+    }
+    return 0;
+  });
 }
 </script>
 

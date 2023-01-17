@@ -7,11 +7,17 @@
     :duration="duration"
     v-model="position"
   >
+    <template v-slot:tools>
+      <Button icon="pi pi-star" class="p-button-rounded p-button-warning p-button-text" />
+    </template>
     <template v-slot:actions>
       <Button
         icon="pi pi-filter-slash"
         class="p-button-rounded p-button-action"
-      />
+        @click="toggleShuffleMode"
+      >
+        <i v-if="isShuffleMode" id="repeatMode" class="pi pi-filter-slash" v-badge.danger></i>
+      </Button>
       <Button
         @click="previousTrack"
         icon="pi pi-step-backward"
@@ -28,7 +34,7 @@
         class="p-button-rounded p-button-action"
       />
       <Button icon="pi pi-sync" class="p-button-rounded p-button-action" @click="toggleRepeatMode">
-        <i v-if="repeatMode" id="repeatMode" class="pi pi-sync" v-badge.danger></i>
+        <i v-if="isRepeatMode" id="repeatMode" class="pi pi-sync" v-badge.danger></i>
       </Button>
     </template>
   </Player>
@@ -38,7 +44,26 @@
 import Player from "@/components/shared/music/Player.vue";
 import usePlayer from "@/composables/musicPlayers/playerComposable";
 
-const { isLoaded, artists, title, img, position, duration, playIcon, togglePlay, previousTrack, nextTrack, repeatMode, toggleRepeatMode } = usePlayer();
+import { musicPlayerStoreKey } from "@/serviceKeys";
+import { computed, inject } from "vue";
+
+const musicPlayerStore = inject(musicPlayerStoreKey);
+
+const isRepeatMode = computed(() => {
+  return musicPlayerStore.isRepeatMode;
+});
+const isShuffleMode = computed(() => {
+  return musicPlayerStore.isShuffleMode;
+});
+
+function toggleRepeatMode() {
+  musicPlayerStore.toggleRepeatMode();
+}
+function toggleShuffleMode() {
+  musicPlayerStore.toggleShuffleMode();
+}
+
+const { isLoaded, artists, title, img, position, duration, playIcon, togglePlay, previousTrack, nextTrack } = usePlayer();
 </script>
 
 <style lang="scss">

@@ -20,12 +20,21 @@ export default class PlaylistService extends ApiService {
     return data;
   }
 
+  addPlaylist(playlist) {
+    return this.post('', playlist);
+  } 
+
   deletePlaylist(id) {
     return this.delete(`${id}`);
   }
 
   updatePlaylist(playlist) {
     return this.put(`${playlist.playlistId}`, playlist);
+  }
+
+  async addTrackFromPlaylist(playlist, track) {
+    const data = await this.post(`/PlaylistTrack/Add/${playlist.playlistId}`, [ track ]);
+    return data;
   }
 
   async removeTrackFromPlaylist(playlist, track) {

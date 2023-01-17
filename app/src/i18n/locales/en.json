@@ -9,7 +9,8 @@
   },
   "playlist": {
     "validate": "Validate",
-    "delete": "Delete my playlist !"
+    "delete": "Delete my playlist !",
+    "create": "Create a playlist"
   },
   "discovery": {
     "creating": "We’re creating your new playlist based on your choices. We’ll notify you when it’s ready."
@@ -17,6 +18,7 @@
   "music": {
     "delete": "Remove from the playlist",
     "addToAPlaylist": "Add to a playlist",
-    "addToFav": "Add to your favorite tracks"
+    "addToFav": "Add to your favorite tracks",
+    "pickPlaylist": "Pick a playlist"
   }
 }

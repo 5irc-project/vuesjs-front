@@ -4,7 +4,7 @@
     <div class="page__playlists">
       <div class="page__playlists-header">
         <SearchBar placeholder="Search a playlist" />
-        <Button icon="pi pi-plus" class="p-button-rounded p-button-secondary" />
+        <Button icon="pi pi-plus" class="p-button-rounded p-button-secondary" @click="openCreatePlaylist"/>
       </div>
       <TabView :activeIndex="1">
         <TabPanel header="Generated">
@@ -25,9 +25,18 @@
     </div>
     <Sidebar v-model:visible="sidebar" :baseZIndex="10000" position="bottom" class="sidebar">
       <h3>{{ $t('shared.options') }}</h3>
-      <Button @click="deletePlaylist" :label="$t('playlist.delete')" icon="pi pi-times" class="p-button-danger" />
+      <Button @click="deletePlaylist" :label="$t('playlist.delete')" icon="pi pi-times" class="p-button-danger"/>
       <Button v-if="isGenerated" type="button" :label="$t('playlist.validate')" icon="pi pi-check"
-        class="p-button-success" badgeClass="p-badge-danger" @click="validate" />
+        class="p-button-success" badgeClass="p-badge-danger" @click="validate"/>
+    </Sidebar>
+    <Sidebar v-model:visible="sidebarCreatePlaylist" :baseZIndex="10000" position="bottom" class="sidebar">
+      <h3>{{ $t('playlist.create') }}</h3>
+      <span class="p-float-label">
+        <InputText id="playlistName" type="text" v-model="newPlaylist.playlistName" :class="'p-invalid' ? !isNewPlaylistValid : ''"/>
+        <label for="playlistName">Name</label>
+      </span>
+      <Button type="button" :label="$t('playlist.validate')" icon="pi pi-check"
+        class="p-button-success" @click="createNewPlaylist" :disabled="!isNewPlaylistValid"/>
     </Sidebar>
   </div>
 </template>
@@ -40,11 +49,12 @@ import Item from "@/components/shared/list/Item.vue";
 import { ref, inject, computed } from "vue";
 import { useRouter } from "vue-router";
 
-import { playlistServiceKey } from "@/serviceKeys";
+import { playlistServiceKey, userStoreKey } from "@/serviceKeys";
 import { PLAYLIST_KIND } from "@/utils/enums";
 
 const router = useRouter();
 const playlistService = inject(playlistServiceKey);
+const userStore = inject(userStoreKey);
 
 function redirect(playlist) {
   router.push({ name: "playlist", params: { id: playlist?.playlistId } });
@@ -97,6 +107,38 @@ async function validate() {
   
   closeSidebar();
 }
+
+
+const sidebarCreatePlaylist = ref(false);
+function openCreatePlaylist() {
+  newPlaylist.value = {
+    userId: userStore.getUser.userId,
+    kindId: PLAYLIST_KIND.MANUAL,
+    playlistName: "",
+    tracks: []
+  }
+
+  sidebarCreatePlaylist.value = true;
+}
+function closeCreatePlaylist() {
+  sidebarCreatePlaylist.value = false;
+}
+
+const newPlaylist = ref(null);
+const isNewPlaylistValid = computed(() => {
+  return newPlaylist.value?.playlistName !== "";
+})
+
+async function createNewPlaylist() {
+  if(!isNewPlaylistValid.value) {
+    return;
+  }
+
+  await playlistService.addPlaylist(newPlaylist.value);
+  updatePlaylists();
+
+  closeCreatePlaylist();
+}
 </script>
 
 <style lang="scss" scoped>
@@ -118,7 +160,7 @@ async function validate() {
 }
 
 .sidebar {
-  button {
+  button, input {
     width: 100%;
     margin: .25rem 0;
   }

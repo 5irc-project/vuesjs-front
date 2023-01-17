@@ -6,16 +6,25 @@
   padding: $content-padding;
 
   > * {
-    margin-bottom: $content-padding*2;
+    margin-top: $content-padding*2;
   }
 
   &__image {
+    margin: 0;
     width: 100%;
     border-radius: $border-radius;
     background-size: cover;
   }
 
   &__info {
+  }
+
+  &__tools {
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: .5rem;
   }
 
   &__time {
@@ -46,6 +55,7 @@
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
+    margin-top: .5rem;
 
     .p-button-action {
       background-color: transparent !important;
