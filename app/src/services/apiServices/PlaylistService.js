@@ -37,7 +37,7 @@ export default class PlaylistService extends ApiService {
   async getSeparatedPlaylists() {
     const playlists = await this.getMyPlaylists();
 
-    const myPlaylists = playlists.filter(p => p.kindId === PLAYLIST_KIND.MANUAL);
+    const myPlaylists = playlists.filter(p => p.kindId === PLAYLIST_KIND.MANUAL || p.kindId === PLAYLIST_KIND.FAVORITE);
     const generatedPlaylists = playlists.filter(p => p.kindId === PLAYLIST_KIND.GENERATED);
 
     return { myPlaylists, generatedPlaylists };
