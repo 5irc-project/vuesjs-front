@@ -13,14 +13,14 @@ export default class ApiService extends Http {
 
   provide(app) {
     app.provide(this.serviceKey, this);
-    this.user = useUserStore().getUser;
   }
 
   authorize(config) {
+    this.token = useUserStore().getAuthToken;
     try {
-      if (this.user && this.user.authenticationToken) {
+      if (this.token) {
         config.headers["Content-Type"] = "application/json";
-        config.headers["Authorization"] = `Bearer ${this.user.authenticationToken}`;
+        config.headers["Authorization"] = `Bearer ${this.token}`;
       } else {
         config.headers["Access-Control-Allow-Origin"] = document.env.VUE_APP_CORS_ACCESS_CONTROL_ALLOW_ORIGIN;
         config.headers["Allow"] = document.env.VUE_APP_CORS_ALLOW;

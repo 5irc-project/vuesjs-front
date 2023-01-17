@@ -16,7 +16,7 @@
         />
         <div class="page__header-informations__filters">
           <Button icon="pi pi-sort-alpha-down" class="p-button-rounded p-button-outlined" @click="sortArtistName" />
-          <Button icon="pi pi-sort-alpha-down" class="p-button-rounded p-button-outlined" @click="sortArtistName" />
+          <Button icon="pi pi-sort-alpha-down" class="p-button-rounded p-button-outlined" @click="sortGenre" />
           <Button icon="pi pi-sort-alpha-down" class="p-button-rounded p-button-outlined" @click="sortTrackName" />
         </div>
       </div>
@@ -102,6 +102,9 @@ async function removeFromPlaylist() {
 function sortArtistName() {
   playlist.value.tracks = sortByAlphabetical(playlist.value.tracks, "artistName");
 }
+function sortGenre() {
+  playlist.value.tracks = sortByAlphabeticalAccess(playlist.value.tracks, (track) => track.genres[0].name);
+}
 function sortTrackName() {
   playlist.value.tracks = sortByAlphabetical(playlist.value.tracks, "trackName");
 }
@@ -112,6 +115,18 @@ function sortByAlphabetical(array, propertyPath) {
       return -1;
     }
     if (a[propertyPath] > b[propertyPath]) {
+      return 1;
+    }
+    return 0;
+  });
+}
+
+function sortByAlphabeticalAccess(array, access) {
+  return array.sort(function (a, b) {
+    if (access(a) < access(b)) {
+      return -1;
+    }
+    if (access(a) > access(b)) {
       return 1;
     }
     return 0;

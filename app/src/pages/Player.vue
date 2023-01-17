@@ -47,7 +47,6 @@ musicService.getById(route.params.id).then(async (m) => {
 
   const toPlay = await musicPlayerService.search(music.value.trackName + " " + music.value.artistName);
   await musicPlayerService.playTrack(toPlay.uri);
-  updatePlaylists();
 });
 
 
@@ -86,8 +85,7 @@ const sidebarAddToPlaylist = ref(false);
 const playlists = ref([]);
 
 async function updatePlaylists() {
-  console.log(music.value)
-  playlists.value = await musicService.getAvailablePlaylists(music.value.trackId);
+  playlists.value = await playlistService.getAvailablePlaylists(music.value.trackId);
 }
 
 async function addToPlaylist(playlist) {

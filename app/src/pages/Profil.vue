@@ -37,13 +37,13 @@
 </template>
 
 <script setup>
-import { inject } from "vue";
+import { inject, ref } from "vue";
 import { userStoreKey, musicPlayerStoreKey } from "@/serviceKeys";
 
 const userStore = inject(userStoreKey);
 const musicPlayerStore = inject(musicPlayerStoreKey);
 
-const user = userStore.getUser;
+const user = ref({});
 const musicPlayerService = musicPlayerStore.getService;
 
 function logout() {
@@ -58,6 +58,10 @@ async function deleteAccount() {
 function saveUser() {
   userStore.updateUser(user);
 }
+
+userStore.refreshUserProfil().then(() => {
+  user.value = userStore.getUser; 
+})
 </script>
 
 <style lang="scss">

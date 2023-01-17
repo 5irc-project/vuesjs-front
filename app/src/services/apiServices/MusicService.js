@@ -22,9 +22,4 @@ export default class MusicService extends ApiService {
     const { data } = await this.get(`random`);
     return data;
   }
-
-  async getAvailablePlaylists(musicId) {
-    const data = await this.get(`Playlists/${musicId}`);
-    return data;
-  }
 }

@@ -117,6 +117,7 @@ function openCreatePlaylist() {
     playlistName: "",
     tracks: []
   }
+  console.log(newPlaylist.value)
 
   sidebarCreatePlaylist.value = true;
 }

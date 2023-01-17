@@ -51,6 +51,10 @@ export const useUserStore = defineStore("user", {
 
       this.setUser(user);
     },
+    async refreshUserProfil() {
+      const user = await userService.getProfil();
+      this.setUser(user);
+    },
     async updateUser(modifiedUser) {
       const user = await userService.updateProfil(modifiedUser);
       this.setUser(user);

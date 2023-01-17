@@ -1,7 +1,7 @@
 import ApiService from "@/services/ApiService";
 import { userServiceKey } from "@/serviceKeys";
 
-const controller = "api/users";
+const controller = "api/user";
 
 export default class UserService extends ApiService {
   constructor() {
@@ -9,12 +9,12 @@ export default class UserService extends ApiService {
   }
 
   async getProfil() {
-    const { data } = await this.getProfil('/profil');
+    const { data } = await this.get('/profile');
     return data;
   }
 
   async updateProfil(profil) {
-    const { data } = await this.put(`${profil.userId}`, profil);
+    const { data } = await this.put(`update/`, profil);
     return data;
   }
 
