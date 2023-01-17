@@ -8,6 +8,7 @@ export default class ApiService extends Http {
     super(`${url}/${controller}`);
 
     this.http.interceptors.request.use(config => this.authorize(config));
+    this.http.interceptors.response.use(undefined, error => this.handleUnhautorize(error));
     this.serviceKey = key;
   }
 
@@ -30,5 +31,12 @@ export default class ApiService extends Http {
     }
 
     return config;
+  }
+
+  handleUnhautorize(err) {
+    if (err.response.status === 401) {
+      this.useStore = useUserStore();
+      this.useStore.logout();
+    }
   }
 }
