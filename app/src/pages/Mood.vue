@@ -1,21 +1,30 @@
 <template>
   <div class="page">
-    <h1>Match</h1>
+    <h1>Mood</h1>
     <div class="page__match">
       <Button
-        @click="redirect('discovery')"
-        label="Discovery"
+        label="Chill"
+        icon="pi pi-moon"
         class="p-button-raised p-button-secondary"
       />
       <Button
-        @click="redirect('mood')"
-        label="Mood"
+        label="Dynamic"
+        icon="pi pi-bolt"
         class="p-button-raised p-button-secondary"
       />
       <Button
-        disabled
-        @click="redirect('surprise-me')"
-        label="Surprise me !"
+        label="Melancolic"
+        icon="pi pi-image"
+        class="p-button-raised p-button-secondary"
+      />
+      <Button
+        label="Instrumental"
+        icon="pi pi-bell"
+        class="p-button-raised p-button-secondary"
+      />
+      <Button
+        label="Lyrical"
+        icon="pi pi-tags"
         class="p-button-raised p-button-secondary"
       />
     </div>
@@ -23,13 +32,6 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
-
-const router = useRouter();
-
-function redirect(name = "") {
-  router.push({ name });
-}
 </script>
 
 <style lang="scss" scoped>
