@@ -34,11 +34,11 @@ const spotifyTokens = {
 }
 const jwtToken = route.query.jwtToken;
 
-if (spotifyTokens.accessToken) {
-  window.opener.spotifyCallback(spotifyTokens);
-}
 if(jwtToken) {
   userStore.login(jwtToken);
+}
+if (spotifyTokens.accessToken) {
+  window.opener.spotifyCallback(spotifyTokens);
 }
 
 function login() {

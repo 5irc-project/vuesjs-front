@@ -20,5 +20,8 @@
     "addToAPlaylist": "Add to a playlist",
     "addToFav": "Add to your favorite tracks",
     "pickPlaylist": "Pick a playlist"
+  },
+  "profil": {
+    "delete": "Delete my account !"
   }
 }
