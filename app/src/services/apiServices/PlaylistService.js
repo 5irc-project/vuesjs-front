@@ -61,5 +61,4 @@ export default class PlaylistService extends ApiService {
     const data = await this.updatePlaylist(validatedPlaylist);
     return data;
   }
-
 }

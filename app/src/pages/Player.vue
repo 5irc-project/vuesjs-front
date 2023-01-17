@@ -47,6 +47,7 @@ musicService.getById(route.params.id).then(async (m) => {
 
   const toPlay = await musicPlayerService.search(music.value.trackName + " " + music.value.artistName);
   await musicPlayerService.playTrack(toPlay.uri);
+  updatePlaylists();
 });
 
 
@@ -76,6 +77,7 @@ function addToFav() {
 function addToAPlaylist() {
   sidebarAddToPlaylist.value = true;
   closeSidebar();
+  updatePlaylists();
 }
 
 
@@ -84,11 +86,9 @@ const sidebarAddToPlaylist = ref(false);
 const playlists = ref([]);
 
 async function updatePlaylists() {
-  const { myPlaylists } = await playlistService.getSeparatedPlaylists();
-
-  playlists.value = myPlaylists;
+  console.log(music.value)
+  playlists.value = await musicService.getAvailablePlaylists(music.value.trackId);
 }
-updatePlaylists();
 
 async function addToPlaylist(playlist) {
   await playlistService.addTrackFromPlaylist(playlist, music.value);

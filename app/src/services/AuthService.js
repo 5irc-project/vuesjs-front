@@ -1,7 +1,7 @@
 import ApiService from "./ApiService";
 import { authServiceKey } from "@/serviceKeys";
 
-const controller = "";
+const controller = "api/Auth";
 
 export default class AuthService extends ApiService {
   constructor() {
