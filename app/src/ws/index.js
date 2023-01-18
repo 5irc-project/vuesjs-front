@@ -1,11 +1,11 @@
 /* eslint-disable */
 import socketIO from 'socket.io-client';
 import { watch } from 'vue';
-import { createPinia, storeToRefs } from "pinia";
+import { storeToRefs } from "pinia";
 import { useUserStore } from '@/store/modules/user';
 import { useNotificationStore } from '@/store/modules/notification';
 
-const socket = socketIO.connect('http://localhost:8081', {transports: ["websocket"]});
+const socket = socketIO.connect(document.env.VUE_APP_NOTIFICATION_URL, {transports: ["websocket"]});
 
 var hasConnected = false;
 
