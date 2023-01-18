@@ -21,7 +21,8 @@
           </GooeyButton>
 
           <router-link :to="{ name: 'playlists' }" class="main-menu_link">
-            <i class="pi pi-bookmark" v-badge.danger></i>
+            <i v-if="hasGeneratedBadge" class="pi pi-bookmark" v-badge.danger></i>
+            <i v-else class="pi pi-bookmark"></i>
             <span>{{ $t('shared.playlists') }}</span>
           </router-link>
 
@@ -46,8 +47,14 @@ import { Carousel, Slide } from 'vue3-carousel'
 import GooeyButton from '@/components/shared/buttons/GooeyButton.vue';
 import SpotifyMinifiedPlayer from "@/components/musicPlayers/spotify/SpotifyMinifiedPlayer";
 
+import { notificationStoreKey } from "@/serviceKeys";
+import { storeToRefs } from "pinia";
+
 import gsap from "gsap";
-import { onMounted } from "vue";
+import { onMounted, inject } from "vue";
+
+const notificationStore = inject(notificationStoreKey);
+const { hasGeneratedBadge } = storeToRefs(notificationStore);
 
 onMounted(() => {
   gsap.fromTo(".main-menu_link",

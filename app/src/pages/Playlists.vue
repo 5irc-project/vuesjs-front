@@ -75,11 +75,14 @@ import Item from "@/components/shared/list/Item.vue";
 import { ref, inject, computed } from "vue";
 import { useRouter } from "vue-router";
 
-import { playlistServiceKey } from "@/serviceKeys";
+import { playlistServiceKey, notificationStoreKey } from "@/serviceKeys";
 import { PLAYLIST_KIND } from "@/utils/enums";
 
 const router = useRouter();
 const playlistService = inject(playlistServiceKey);
+const notificationStore = inject(notificationStoreKey);
+
+notificationStore.resetGeneratedBadge();
 
 function redirect(playlist) {
   router.push({ name: "playlist", params: { id: playlist?.playlistId } });
