@@ -14,6 +14,7 @@ import router from '@/router';
 import store from "@/store";
 import { i18n } from "@/i18n";
 import services from '@/services';
+import socket from '@/ws';
 
 const app = createApp(App)
     .use(env)
@@ -25,6 +26,7 @@ const app = createApp(App)
     .use(i18n)
     .use(date)
     .use(services)
+    .use(socket)
 
 app.provide(i18nKey, i18n.global);
 app.mount('#app');
