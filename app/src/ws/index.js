@@ -1,42 +1,42 @@
+/* eslint-disable */
 import socketIO from 'socket.io-client';
 import { watch } from 'vue';
-import { storeToRefs } from "pinia";
+import { createPinia, storeToRefs } from "pinia";
 import { useUserStore } from '@/store/modules/user';
+import { useNotificationStore } from '@/store/modules/notification';
 
 const socket = socketIO.connect('http://localhost:8081', {transports: ["websocket"]});
 
 var hasConnected = false;
-
-
 
 export default {
   install() {
     const userStore = useUserStore();
     const { user } = storeToRefs(userStore);
 
-    watch(user, (newUser) => onUserUpdate(newUser.value));
+    watch(user, (newUser) => onUserUpdate(newUser));
     onUserUpdate(user.value);
   }
 }
 
 
 function onUserUpdate(user) {
-  console.log("userId : ", user.userId);
+  if(!user?.userId) {
+    return;
+  }
 
   if(hasConnected) {
     return;
   }
 
-  socket.on(user.userId, () => {
-    console.log("oui")
+  const notificationStore = useNotificationStore();
+
+  socket.on(user.userId, (notification) => {
+    notificationStore.setGeneratedBadge(notification.isGenerated);
   });
 
   hasConnected = true;
 }
-
-socket.on("notification", (body) => {
-  console.log(body);
-})
 
 
 socket.on("error", (err) => {

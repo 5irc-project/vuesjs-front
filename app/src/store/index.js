@@ -2,11 +2,12 @@ import { createPinia } from "pinia";
 import { markRaw } from "vue";
 import router from "@/router";
 
-import { userStoreKey, configurationStoreKey, musicPlayerStoreKey } from "@/serviceKeys";
+import { userStoreKey, configurationStoreKey, musicPlayerStoreKey, notificationStoreKey } from "@/serviceKeys";
 
 import { useUserStore } from "./modules/user";
 import { useConfigurationStore } from "./modules/configuration";
 import { useMusicPlayerStore } from "./modules/musicPlayer";
+import { useNotificationStore } from "./modules/notification";
 
 export default {
   install(app) {
@@ -22,5 +23,6 @@ export default {
     app.provide(userStoreKey, useUserStore());
     app.provide(configurationStoreKey, useConfigurationStore());
     app.provide(musicPlayerStoreKey, useMusicPlayerStore());
+    app.provide(notificationStoreKey, useNotificationStore());
   },
 };
