@@ -3,7 +3,7 @@ import { playlistServiceKey } from "@/serviceKeys";
 import { PLAYLIST_KIND } from "@/utils/enums";
 import { useUserStore } from "@/store/modules/user";
 
-const controller = "api/Playlist";
+const controller = "api/Music/Playlist";
 
 export default class PlaylistService extends ApiService {
   constructor() {

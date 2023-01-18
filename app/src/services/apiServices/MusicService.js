@@ -1,7 +1,7 @@
 import ApiService from "@/services/ApiService";
 import { musicServiceKey } from "@/serviceKeys";
 
-const controller = "api/Track";
+const controller = "api/Music/Track";
 
 export default class MusicService extends ApiService {
   constructor() {
