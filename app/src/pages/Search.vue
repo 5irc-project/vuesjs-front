@@ -9,7 +9,7 @@
         v-for="music in musics"
         :key="music.trackId"
         :title="music.trackName"
-        :description="music.description"
+        :description="music.artistName"
         @click="play(music)"
       />
     </List>

@@ -8,19 +8,20 @@ export default class ApiService extends Http {
     super(`${url}/${controller}`);
 
     this.http.interceptors.request.use(config => this.authorize(config));
+    this.http.interceptors.response.use(undefined, error => this.handleUnhautorize(error));
     this.serviceKey = key;
   }
 
   provide(app) {
     app.provide(this.serviceKey, this);
-    this.user = useUserStore().getUser;
   }
 
   authorize(config) {
+    this.token = useUserStore().getAuthToken;
     try {
-      if (this.user && this.user.authenticationToken) {
+      if (this.token) {
         config.headers["Content-Type"] = "application/json";
-        config.headers["Authorization"] = `Bearer ${this.user.authenticationToken}`;
+        config.headers["Authorization"] = `Bearer ${this.token}`;
       } else {
         config.headers["Access-Control-Allow-Origin"] = document.env.VUE_APP_CORS_ACCESS_CONTROL_ALLOW_ORIGIN;
         config.headers["Allow"] = document.env.VUE_APP_CORS_ALLOW;
@@ -30,5 +31,12 @@ export default class ApiService extends Http {
     }
 
     return config;
+  }
+
+  handleUnhautorize(err) {
+    if (err.response.status === 401) {
+      this.useStore = useUserStore();
+      this.useStore.logout();
+    }
   }
 }

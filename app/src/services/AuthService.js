@@ -5,7 +5,7 @@ const controller = "api/Auth";
 
 export default class AuthService extends ApiService {
   constructor() {
-    super(controller, authServiceKey, "https://localhost:7091");
+    super(controller, authServiceKey, document.env.VUE_APP_API_AUTH_BASE_URL);
   } 
   
   authSpotify() {

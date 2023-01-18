@@ -19,9 +19,13 @@ export default function usePlayer() {
   const isShuffleMode = computed(() => {
     return musicPlayerStore.isShuffleMode;
   });
+
+  const isRepeatMode = computed(() => {
+    return musicPlayerStore.isRepeatMode;
+  });
   
   const artists = computed(() => {
-    return musicState.value.context?.metadata.current_item.artists.reduce(
+    return musicState.value.context?.metadata.current_item?.artists.reduce(
       (string, newArtist) =>
         (string += string != "" ? `, ${newArtist.name}` : newArtist.name),
       ""
@@ -29,11 +33,11 @@ export default function usePlayer() {
   });
   
   const title = computed(() => {
-    return musicState.value.context?.metadata.current_item.name;
+    return musicState.value.context?.metadata.current_item?.name;
   });
   
   const img = computed(() => {
-    return musicState.value.context?.metadata.current_item.images[2].url;
+    return musicState.value.context?.metadata.current_item?.images[2]?.url;
   });
   
   const position = computed({
@@ -60,6 +64,10 @@ export default function usePlayer() {
     if(isShuffleMode.value) {
       const music = musicPlayerStore.getRandomMusic;
       playMusicByDto(music);
+    }
+
+    if(isRepeatMode.value) {
+      playMusicByDto(musicPlayerStore.getCurrentMusic)
     }
   })
   

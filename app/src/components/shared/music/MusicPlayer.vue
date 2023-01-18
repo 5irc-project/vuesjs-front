@@ -8,7 +8,7 @@
     v-model="position"
   >
     <template v-slot:tools>
-      <Button icon="pi pi-star" class="p-button-rounded p-button-warning p-button-text" />
+      <slot name="tools"></slot>
     </template>
     <template v-slot:actions>
       <Button

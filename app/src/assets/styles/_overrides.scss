@@ -776,6 +776,10 @@
   height: auto;
 }
 
-.p-inputtext {
+.p-inputtext, .p-confirm-popup {
   color: black !important;
+
+  .p-confirm-popup-accept {
+    background-color: $red;
+  }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div v-touch:swipe.left="like" v-touch:swipe.right="dontLike">
+  <div v-touch:swipe.left="dontLike" v-touch:swipe.right="like">
     <h1>Discovery</h1>
     <Player
       v-if="isLoaded && isActive"
@@ -41,11 +41,11 @@ import { onMounted, inject, ref } from "vue";
 import { useRouter } from "vue-router";
 
 import usePlayer from "@/composables/musicPlayers/playerComposable";
-import { musicServiceKey, recommendationServiceKey } from "@/serviceKeys";
+import { musicServiceKey, playlistServiceKey } from "@/serviceKeys";
 
 const router = useRouter();
 const musicService = inject(musicServiceKey);
-const recommendationService = inject(recommendationServiceKey);
+const recommendationService = inject(playlistServiceKey);
 
 const {
   isLoaded,

@@ -4,57 +4,82 @@
     <div class="page__playlists">
       <div class="page__playlists-header">
         <SearchBar placeholder="Search a playlist" />
-        <Button icon="pi pi-plus" class="p-button-rounded p-button-secondary" @click="openCreatePlaylist"/>
+        <Button
+          icon="pi pi-plus"
+          class="p-button-rounded p-button-secondary"
+          @click="openCreatePlaylist"
+        />
       </div>
       <TabView :activeIndex="1">
         <TabPanel header="Generated">
           <List>
-            <Item v-for="playlist in myGeneratedPlaylists" :key="playlist.playlistId" :imageSrc="playlist.imageSrc"
-              :title="playlist.playlistName" :description="playlist.description" @clickItem="redirect(playlist)"
-              @clickAction="openSideMenu(playlist)" />
+            <Item
+              v-for="playlist in myGeneratedPlaylists"
+              :key="playlist.playlistId"
+              :imageSrc="playlist.imageSrc"
+              :title="playlist.playlistName"
+              :description="playlist.description"
+              @clickItem="redirect(playlist)"
+              @clickAction="openSideMenu(playlist)"
+            />
           </List>
         </TabPanel>
         <TabPanel header="Mine">
           <List>
-            <Item v-for="playlist in playlists" :key="playlist.playlistId" :imageSrc="playlist.imageSrc"
-              :title="playlist.playlistName" :description="playlist.description" @clickItem="redirect(playlist)"
-              @clickAction="openSideMenu(playlist)" />
+            <Item
+              v-for="playlist in playlists"
+              :key="playlist.playlistId"
+              :imageSrc="playlist.imageSrc"
+              :title="playlist.playlistName"
+              :description="playlist.description"
+              @clickItem="redirect(playlist)"
+              @clickAction="openSideMenu(playlist)"
+            />
           </List>
         </TabPanel>
       </TabView>
     </div>
-    <Sidebar v-model:visible="sidebar" :baseZIndex="10000" position="bottom" class="sidebar">
-      <h3>{{ $t('shared.options') }}</h3>
-      <Button @click="deletePlaylist" :label="$t('playlist.delete')" icon="pi pi-times" class="p-button-danger"/>
-      <Button v-if="isGenerated" type="button" :label="$t('playlist.validate')" icon="pi pi-check"
-        class="p-button-success" badgeClass="p-badge-danger" @click="validate"/>
+    <Sidebar
+      v-model:visible="sidebar"
+      :baseZIndex="10000"
+      position="bottom"
+      class="sidebar"
+    >
+      <h3>{{ $t("shared.options") }}</h3>
+      <Button
+        @click="deletePlaylist"
+        :label="$t('playlist.delete')"
+        icon="pi pi-times"
+        class="p-button-danger"
+      />
+      <Button
+        v-if="isGenerated"
+        type="button"
+        :label="$t('playlist.validate')"
+        icon="pi pi-check"
+        class="p-button-success"
+        badgeClass="p-badge-danger"
+        @click="validate"
+      />
     </Sidebar>
-    <Sidebar v-model:visible="sidebarCreatePlaylist" :baseZIndex="10000" position="bottom" class="sidebar">
-      <h3>{{ $t('playlist.create') }}</h3>
-      <span class="p-float-label">
-        <InputText id="playlistName" type="text" v-model="newPlaylist.playlistName" :class="'p-invalid' ? !isNewPlaylistValid : ''"/>
-        <label for="playlistName">Name</label>
-      </span>
-      <Button type="button" :label="$t('playlist.validate')" icon="pi pi-check"
-        class="p-button-success" @click="createNewPlaylist" :disabled="!isNewPlaylistValid"/>
-    </Sidebar>
+    <CreatePlaylist v-model="sidebarCreatePlaylist" @close="updatePlaylists" />
   </div>
 </template>
 
 <script setup>
 import SearchBar from "@/components/shared/form/SearchBar.vue";
+import CreatePlaylist from "@/components/shared/playlist/CreatePlaylist.vue";
 import List from "@/components/shared/list/List.vue";
 import Item from "@/components/shared/list/Item.vue";
 
 import { ref, inject, computed } from "vue";
 import { useRouter } from "vue-router";
 
-import { playlistServiceKey, userStoreKey } from "@/serviceKeys";
+import { playlistServiceKey } from "@/serviceKeys";
 import { PLAYLIST_KIND } from "@/utils/enums";
 
 const router = useRouter();
 const playlistService = inject(playlistServiceKey);
-const userStore = inject(userStoreKey);
 
 function redirect(playlist) {
   router.push({ name: "playlist", params: { id: playlist?.playlistId } });
@@ -69,15 +94,14 @@ const isGenerated = computed(() => {
   return selectedPlaylist.value?.kindId === PLAYLIST_KIND.GENERATED;
 });
 
-
 async function updatePlaylists() {
-  const { myPlaylists, generatedPlaylists } = await playlistService.getSeparatedPlaylists();
+  const { myPlaylists, generatedPlaylists } =
+    await playlistService.getSeparatedPlaylists();
 
   playlists.value = myPlaylists;
   myGeneratedPlaylists.value = generatedPlaylists;
 }
 updatePlaylists();
-
 
 function openSideMenu(playlist) {
   sidebar.value = true;
@@ -89,8 +113,7 @@ function closeSidebar() {
 }
 
 async function deletePlaylist() {
-  if (selectedPlaylist.value === null)
-    return;
+  if (selectedPlaylist.value === null) return;
 
   await playlistService.deletePlaylist(selectedPlaylist.value.playlistId);
   updatePlaylists();
@@ -99,45 +122,18 @@ async function deletePlaylist() {
 }
 
 async function validate() {
-  if (selectedPlaylist.value === null)
-    return;
+  if (selectedPlaylist.value === null) return;
 
   await playlistService.validatePlaylist(selectedPlaylist.value);
   updatePlaylists();
-  
+
   closeSidebar();
 }
 
-
 const sidebarCreatePlaylist = ref(false);
+
 function openCreatePlaylist() {
-  newPlaylist.value = {
-    userId: userStore.getUser.userId,
-    kindId: PLAYLIST_KIND.MANUAL,
-    playlistName: "",
-    tracks: []
-  }
-
   sidebarCreatePlaylist.value = true;
-}
-function closeCreatePlaylist() {
-  sidebarCreatePlaylist.value = false;
-}
-
-const newPlaylist = ref(null);
-const isNewPlaylistValid = computed(() => {
-  return newPlaylist.value?.playlistName !== "";
-})
-
-async function createNewPlaylist() {
-  if(!isNewPlaylistValid.value) {
-    return;
-  }
-
-  await playlistService.addPlaylist(newPlaylist.value);
-  updatePlaylists();
-
-  closeCreatePlaylist();
 }
 </script>
 
@@ -154,15 +150,16 @@ async function createNewPlaylist() {
     align-items: center;
 
     button {
-      margin-left: .5rem;
+      margin-left: 0.5rem;
     }
   }
 }
 
 .sidebar {
-  button, input {
+  button,
+  input {
     width: 100%;
-    margin: .25rem 0;
+    margin: 0.25rem 0;
   }
 }
 </style>

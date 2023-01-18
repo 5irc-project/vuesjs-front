@@ -5,7 +5,7 @@ const controller = "api/Recommendation";
 
 export default class RecommendationService extends ApiService {
   constructor() {
-    super(controller, recommendationServiceKey, "https://localhost:7153");
+    super(controller, recommendationServiceKey, document.env.VUE_APP_API_RECOMMENDATION_BASE_URL);
   }
 
   async getRecommendations(tracks) {

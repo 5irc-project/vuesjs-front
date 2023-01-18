@@ -11,6 +11,7 @@ export const useUserStore = defineStore("user", {
   }),
   getters: {
     getUser: (state) => state.user,
+    getUserId: (state) => state.user.userId,
     getRole: (state) => state.user.role,
     getSpotifyTokens: (state) => state.spotifyTokens,
     getAuthToken: (state) => state.authToken,
@@ -49,6 +50,10 @@ export const useUserStore = defineStore("user", {
       this.setAuthToken(jwtToken);
       const user = await userService.getProfil();
 
+      this.setUser(user);
+    },
+    async refreshUserProfil() {
+      const user = await userService.getProfil();
       this.setUser(user);
     },
     async updateUser(modifiedUser) {

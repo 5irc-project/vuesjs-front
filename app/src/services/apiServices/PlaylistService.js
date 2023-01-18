@@ -1,16 +1,17 @@
 import ApiService from "@/services/ApiService";
 import { playlistServiceKey } from "@/serviceKeys";
 import { PLAYLIST_KIND } from "@/utils/enums";
+import { useUserStore } from "@/store/modules/user";
 
 const controller = "api/Playlist";
 
 export default class PlaylistService extends ApiService {
   constructor() {
-    super(controller, playlistServiceKey, "https://localhost:7153");
+    super(controller, playlistServiceKey, document.env.VUE_APP_API_PLAYLIST_BASE_URL);
   }
 
   async getMyPlaylists() {
-    const userId = 0;
+    const userId = useUserStore().getUserId;
     const { data } = await this.get(`User/${userId}`);
     return data || [];
   }
@@ -46,7 +47,7 @@ export default class PlaylistService extends ApiService {
   async getSeparatedPlaylists() {
     const playlists = await this.getMyPlaylists();
 
-    const myPlaylists = playlists.filter(p => p.kindId === PLAYLIST_KIND.MANUAL);
+    const myPlaylists = playlists.filter(p => p.kindId === PLAYLIST_KIND.MANUAL || p.kindId === PLAYLIST_KIND.FAVORITE);
     const generatedPlaylists = playlists.filter(p => p.kindId === PLAYLIST_KIND.GENERATED);
 
     return { myPlaylists, generatedPlaylists };
@@ -59,6 +60,27 @@ export default class PlaylistService extends ApiService {
     }
 
     const data = await this.updatePlaylist(validatedPlaylist);
+    return data;
+  }
+
+  async getAvailablePlaylists(musicId) {
+    const { data } = await this.get(`Trackless/${musicId}`);
+    return data;
+  }
+
+  async getRecommendations(tracks) {
+    const { data } = await this.post(`Recommendation/Dev`, tracks);
+    return data;
+  }
+
+  // favorite
+  async addToFavorite(track) {
+    const { data } = await this.post(`PlaylistTrack/Add/Favorite`, track);
+    return data;
+  }
+
+  async removeFromFavorite(track) {
+    const { data } = await this.post(`PlaylistTrack/Remove/Favorite`, track);
     return data;
   }
 }
