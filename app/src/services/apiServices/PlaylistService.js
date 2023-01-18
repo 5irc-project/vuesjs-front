@@ -47,7 +47,7 @@ export default class PlaylistService extends ApiService {
   async getSeparatedPlaylists() {
     const playlists = await this.getMyPlaylists();
 
-    const myPlaylists = playlists.filter(p => p.kindId === PLAYLIST_KIND.MANUAL);
+    const myPlaylists = playlists.filter(p => p.kindId === PLAYLIST_KIND.MANUAL || p.kindId === PLAYLIST_KIND.FAVORITE);
     const generatedPlaylists = playlists.filter(p => p.kindId === PLAYLIST_KIND.GENERATED);
 
     return { myPlaylists, generatedPlaylists };
@@ -70,6 +70,17 @@ export default class PlaylistService extends ApiService {
 
   async getRecommendations(tracks) {
     const { data } = await this.post(`Recommendation/Dev`, tracks);
+    return data;
+  }
+
+  // favorite
+  async addToFavorite(track) {
+    const { data } = await this.post(`PlaylistTrack/Add/Favorite`, track);
+    return data;
+  }
+
+  async removeFromFavorite(track) {
+    const { data } = await this.post(`PlaylistTrack/Remove/Favorite`, track);
     return data;
   }
 }

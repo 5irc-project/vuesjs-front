@@ -8,7 +8,15 @@
       />
       <i class="b-list__item__action pi pi-ellipsis-v" @click="openSidebar" />
     </div>
-    <MusicPlayer />
+    <MusicPlayer>
+      <template v-slot:tools>
+        <Button
+          :icon="`pi ${isFavorite ? 'pi-star-fill' : 'pi-star'}`"
+          class="p-button-rounded p-button-warning p-button-text"
+          @click="toggleFavorite"
+        />
+      </template>
+    </MusicPlayer>
 
     <Sidebar
       v-model:visible="sidebar"
@@ -28,6 +36,7 @@
         :label="$t('music.addToFav')"
         icon="pi pi-star"
         class="p-button-help"
+        :disabled="isFavorite"
       />
     </Sidebar>
 
@@ -38,7 +47,7 @@
       class="sidebar"
     >
       <h3>{{ $t("music.pickPlaylist") }}</h3>
-      <List style="height: 100%;">
+      <List style="height: 100%">
         <Item
           v-for="playlist in playlists"
           :key="playlist.playlistId"
@@ -87,6 +96,7 @@ const sidebar = ref(false);
 musicService.getById(route.params.id).then(async (m) => {
   music.value = m;
 
+  updateIsFavorite();
   const toPlay = await musicPlayerService.search(
     music.value.trackName + " " + music.value.artistName
   );
@@ -113,8 +123,6 @@ function closeSidebar() {
   sidebar.value = false;
 }
 
-function addToFav() {}
-
 function addToAPlaylist() {
   sidebarAddToPlaylist.value = true;
   closeSidebar();
@@ -133,12 +141,41 @@ async function updatePlaylists() {
 async function addToPlaylist(playlist) {
   await playlistService.addTrackFromPlaylist(playlist, music.value);
   sidebarAddToPlaylist.value = false;
+  updateIsFavorite();
 }
 
 const sidebarCreatePlaylist = ref(false);
 
 function openCreatePlaylist() {
   sidebarCreatePlaylist.value = true;
+}
+
+const isFavorite = ref(false);
+async function updateIsFavorite() {
+  if (!musicPlayerStore.hasCurrentMusic) {
+    return;
+  }
+
+  const music = musicPlayerStore.getCurrentMusic;
+  isFavorite.value = await musicService.isInFavorite(music);
+}
+
+
+async function addToFav() {
+  await playlistService.addToFavorite(music.value);
+  await updateIsFavorite();
+}
+
+async function toggleFavorite() {
+  await updateIsFavorite();
+
+  if(isFavorite.value) {
+    await playlistService.removeFromFavorite(music.value);
+  } else {
+    await playlistService.addToFavorite(music.value);
+  }
+
+  await updateIsFavorite();
 }
 </script> 
 

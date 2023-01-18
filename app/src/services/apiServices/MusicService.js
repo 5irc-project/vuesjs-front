@@ -14,8 +14,13 @@ export default class MusicService extends ApiService {
   }
 
   async getListByQuery(query) {
-    const { data } = await this.get(`NameQuery/${query}`);
-    return data;
+    const response = await this.get(`Query/${query}`);
+
+    if(response?.data === undefined) {
+      return [];
+    }
+
+    return response.data;
   }
 
   async getRandom() {

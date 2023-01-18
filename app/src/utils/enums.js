@@ -5,7 +5,8 @@ export const ROLES = {
 
 export const PLAYLIST_KIND = {
   GENERATED: 1,
-  MANUAL: 2
+  MANUAL: 2,
+  FAVORITE: 3
 };
 
 export const PLAY_MODE = {
