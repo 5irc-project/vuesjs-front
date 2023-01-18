@@ -3,31 +3,37 @@ import { watch } from 'vue';
 import { storeToRefs } from "pinia";
 import { useUserStore } from '@/store/modules/user';
 
+const socket = socketIO.connect('http://localhost:8081', {transports: ["websocket"]});
+
+var hasConnected = false;
+
 
 
 export default {
   install() {
-    console.log("hello")
     const userStore = useUserStore();
     const { user } = storeToRefs(userStore);
 
-    
-    watch(user, (newUser) => {
-      console.log("hzloo", newUser)
-    })
+    watch(user, (newUser) => onUserUpdate(newUser.value));
+    onUserUpdate(user.value);
   }
 }
 
 
 // export const socket = socketIO.connect('http://localhost/', {path: "/nodejs/socket.io"});
-export const socket = socketIO.connect('http://localhost:8081', {transports: ["websocket"]});
 
-export function onUserLogin(userId) {
-  console.log("userId : ", userId)
-  socket.on(userId, () => {
+function onUserUpdate(user) {
+  console.log("userId : ", user.userId);
+
+  if(hasConnected) {
+    return;
+  }
+
+  socket.on(user.userId, () => {
     console.log("oui")
-  })
+  });
 
+  hasConnected = true;
 }
 
 socket.on("notification", (body) => {
