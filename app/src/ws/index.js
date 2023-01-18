@@ -20,8 +20,6 @@ export default {
 }
 
 
-// export const socket = socketIO.connect('http://localhost/', {path: "/nodejs/socket.io"});
-
 function onUserUpdate(user) {
   console.log("userId : ", user.userId);
 
@@ -44,3 +42,6 @@ socket.on("notification", (body) => {
 socket.on("error", (err) => {
   console.error("timeout: ", err);
 });
+socket.on('connect', () => {
+  console.log('connected to socket !')
+})
