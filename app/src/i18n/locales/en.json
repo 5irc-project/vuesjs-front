@@ -23,5 +23,12 @@
   },
   "profil": {
     "delete": "Delete my account !"
+  },
+  "mood": {
+    "chill": "Chill",
+    "dynamic": "Dynamic",
+    "melancholic": "Melancholic",
+    "instrumental": "Instrumental",
+    "lyrical": "Lyrical"
   }
 }

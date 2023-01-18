@@ -3,27 +3,27 @@
     <h1>Mood</h1>
     <div class="page__match">
       <Button
-        label="Chill"
+        :label="$t('mood.chill')"
         icon="pi pi-moon"
         class="p-button-raised p-button-secondary"
       />
       <Button
-        label="Dynamic"
+        :label="$t('mood.dynamic')"
         icon="pi pi-bolt"
         class="p-button-raised p-button-secondary"
       />
       <Button
-        label="Melancolic"
+        :label="$t('mood.melancholic')"
         icon="pi pi-image"
         class="p-button-raised p-button-secondary"
       />
       <Button
-        label="Instrumental"
+        :label="$t('mood.instrumental')"
         icon="pi pi-bell"
         class="p-button-raised p-button-secondary"
       />
       <Button
-        label="Lyrical"
+        :label="$t('mood.lyrical')"
         icon="pi pi-tags"
         class="p-button-raised p-button-secondary"
       />

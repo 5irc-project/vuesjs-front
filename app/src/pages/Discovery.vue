@@ -1,5 +1,5 @@
 <template>
-  <div v-touch:swipe.left="like" v-touch:swipe.right="dontLike">
+  <div v-touch:swipe.left="dontLike" v-touch:swipe.right="like">
     <h1>Discovery</h1>
     <Player
       v-if="isLoaded && isActive"

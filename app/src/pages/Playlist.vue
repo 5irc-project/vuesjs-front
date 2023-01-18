@@ -16,18 +16,18 @@
         </div>
         <div class="page__header-informations__filters">
           <Button
-            icon="pi pi-sort-alpha-down"
-            class="p-button-rounded p-button-outlined"
+            class="p-button-raised p-button-outlined"
+            label="Artist"
             @click="sortArtistName"
           />
           <Button
-            icon="pi pi-sort-alpha-down"
-            class="p-button-rounded p-button-outlined"
+            class="p-button-raised p-button-outlined"
+            label="Genre"
             @click="sortGenre"
           />
           <Button
-            icon="pi pi-sort-alpha-down"
-            class="p-button-rounded p-button-outlined"
+            class="p-button-raised p-button-outlined"
+            label="Name"
             @click="sortTrackName"
           />
         </div>
@@ -41,7 +41,7 @@
         v-for="music in playlist.tracks"
         :key="music.trackId"
         :title="music.trackName"
-        :description="music.artistName"
+        :description="`${music.artistName} - ${music.genres[0].name}`"
         @clickItem="play(music)"
         @clickAction="openSideMenu(music)"
       >

@@ -8,7 +8,7 @@
     v-model="position"
   >
     <template v-slot:tools>
-      <Button :icon="`pi ${isFavortite ? 'pi-stard-fill' : 'pi-stard'}`" class="p-button-rounded p-button-warning p-button-text" />
+      <Button :icon="`pi ${isFavortite ? 'pi-star-fill' : 'pi-star'}`" class="p-button-rounded p-button-warning p-button-text" />
     </template>
     <template v-slot:actions>
       <Button
@@ -70,7 +70,6 @@ function updateIsFavorite() {
   if(!musicPlayerStore.hasCurrentMusic) {
     return;
   }
-  console.log("hello")
 
   const music = musicPlayerStore.getCurrentMusic;
   musicService.isInFavorite(music);

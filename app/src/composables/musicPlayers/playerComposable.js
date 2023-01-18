@@ -19,6 +19,10 @@ export default function usePlayer() {
   const isShuffleMode = computed(() => {
     return musicPlayerStore.isShuffleMode;
   });
+
+  const isRepeatMode = computed(() => {
+    return musicPlayerStore.isRepeatMode;
+  });
   
   const artists = computed(() => {
     return musicState.value.context?.metadata.current_item?.artists.reduce(
@@ -60,6 +64,10 @@ export default function usePlayer() {
     if(isShuffleMode.value) {
       const music = musicPlayerStore.getRandomMusic;
       playMusicByDto(music);
+    }
+
+    if(isRepeatMode.value) {
+      playMusicByDto(musicPlayerStore.getCurrentMusic)
     }
   })
   
