@@ -8,7 +8,7 @@
     v-model="position"
   >
     <template v-slot:tools>
-      <Button icon="pi pi-star" class="p-button-rounded p-button-warning p-button-text" />
+      <Button :icon="`pi ${isFavortite ? 'pi-stard-fill' : 'pi-stard'}`" class="p-button-rounded p-button-warning p-button-text" />
     </template>
     <template v-slot:actions>
       <Button
@@ -44,10 +44,11 @@
 import Player from "@/components/shared/music/Player.vue";
 import usePlayer from "@/composables/musicPlayers/playerComposable";
 
-import { musicPlayerStoreKey } from "@/serviceKeys";
-import { computed, inject } from "vue";
+import { musicPlayerStoreKey, musicServiceKey } from "@/serviceKeys";
+import { computed, inject, onMounted, ref } from "vue";
 
 const musicPlayerStore = inject(musicPlayerStoreKey);
+const musicService = inject(musicServiceKey);
 
 const isRepeatMode = computed(() => {
   return musicPlayerStore.isRepeatMode;
@@ -62,6 +63,22 @@ function toggleRepeatMode() {
 function toggleShuffleMode() {
   musicPlayerStore.toggleShuffleMode();
 }
+
+const isFavortite = ref(false);
+function updateIsFavorite() {
+  
+  if(!musicPlayerStore.hasCurrentMusic) {
+    return;
+  }
+  console.log("hello")
+
+  const music = musicPlayerStore.getCurrentMusic;
+  musicService.isInFavorite(music);
+}
+
+onMounted(() => {
+  updateIsFavorite();
+})
 
 const { isLoaded, artists, title, img, position, duration, playIcon, togglePlay, previousTrack, nextTrack } = usePlayer();
 </script>

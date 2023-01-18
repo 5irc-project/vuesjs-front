@@ -5,7 +5,7 @@ const controller = "api/Track";
 
 export default class MusicService extends ApiService {
   constructor() {
-    super(controller, musicServiceKey, "https://localhost:7153");
+    super(controller, musicServiceKey, document.env.VUE_APP_API_MUSIC_BASE_URL);
   }
 
   async getById(id) {
@@ -20,6 +20,11 @@ export default class MusicService extends ApiService {
 
   async getRandom() {
     const { data } = await this.get(`random`);
+    return data;
+  }
+
+  async isInFavorite(track) {
+    const { data } = await this.get(`${track.trackId}/IsInFavorite`);
     return data;
   }
 }

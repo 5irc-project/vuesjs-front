@@ -5,11 +5,11 @@ const controller = "api/user";
 
 export default class UserService extends ApiService {
   constructor() {
-    super(controller, userServiceKey, "https://localhost:7008");
+    super(controller, userServiceKey, document.env.VUE_APP_API_USER_BASE_URL);
   }
 
   async getProfil() {
-    const { data } = await this.get('/profile');
+    const { data } = await this.get('profile');
     return data;
   }
 

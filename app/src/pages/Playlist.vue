@@ -3,21 +3,33 @@
     <div class="page__header">
       <img :src="playlist.imageSrc" />
       <div class="page__header-informations">
-        <h1>{{ playlist.playlistName }}</h1>
-        <Button
-          v-if="playlist.isGenerated"
-          type="button"
-          :label="$t('playlist.validate')"
-          icon="pi pi-check"
-          class="p-button-secondary"
-          badge=" "
-          badgeClass="p-badge-danger"
-          @click="validate"
-        />
+        <div class="page__header-informations__header">
+          <h1>{{ playlist.playlistName }}</h1>
+          <Button
+            v-if="isGenerated"
+            type="button"
+            :label="$t('playlist.validate')"
+            icon="pi pi-check"
+            class="p-button-secondary"
+            @click="validate"
+          />
+        </div>
         <div class="page__header-informations__filters">
-          <Button icon="pi pi-sort-alpha-down" class="p-button-rounded p-button-outlined" @click="sortArtistName" />
-          <Button icon="pi pi-sort-alpha-down" class="p-button-rounded p-button-outlined" @click="sortGenre" />
-          <Button icon="pi pi-sort-alpha-down" class="p-button-rounded p-button-outlined" @click="sortTrackName" />
+          <Button
+            icon="pi pi-sort-alpha-down"
+            class="p-button-rounded p-button-outlined"
+            @click="sortArtistName"
+          />
+          <Button
+            icon="pi pi-sort-alpha-down"
+            class="p-button-rounded p-button-outlined"
+            @click="sortGenre"
+          />
+          <Button
+            icon="pi pi-sort-alpha-down"
+            class="p-button-rounded p-button-outlined"
+            @click="sortTrackName"
+          />
         </div>
       </div>
     </div>
@@ -35,9 +47,19 @@
       >
       </Item>
     </List>
-    <Sidebar v-model:visible="sidebar" :baseZIndex="10000" position="bottom" class="sidebar">
-      <h3>{{ $t('shared.options') }}</h3>
-      <Button @click="removeFromPlaylist" :label="$t('music.delete')" icon="pi pi-times" class="p-button-danger" />
+    <Sidebar
+      v-model:visible="sidebar"
+      :baseZIndex="10000"
+      position="bottom"
+      class="sidebar"
+    >
+      <h3>{{ $t("shared.options") }}</h3>
+      <Button
+        @click="removeFromPlaylist"
+        :label="$t('music.delete')"
+        icon="pi pi-times"
+        class="p-button-danger"
+      />
     </Sidebar>
   </div>
 </template>
@@ -47,9 +69,10 @@ import SearchBar from "@/components/shared/form/SearchBar.vue";
 import List from "@/components/shared/list/List.vue";
 import Item from "@/components/shared/list/Item.vue";
 
-import { ref, inject } from "vue";
+import { ref, inject, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { playlistServiceKey, musicPlayerStoreKey } from "@/serviceKeys";
+import { PLAYLIST_KIND } from "@/utils/enums";
 
 const route = useRoute();
 const router = useRouter();
@@ -57,18 +80,23 @@ const playlistService = inject(playlistServiceKey);
 const musicPlayerStore = inject(musicPlayerStoreKey);
 
 const playlist = ref({});
+const isGenerated = computed(() => {
+  return playlist.value?.kindId === PLAYLIST_KIND.GENERATED;
+});
 const selectedMusic = ref(null);
 
 const sidebar = ref(false);
-
 
 async function updatePlaylist() {
   playlist.value = await playlistService.getById(route.params.id);
 }
 updatePlaylist();
 
-function validate() {
+async function validate() {
+  if (playlist.value === null) return;
 
+  await playlistService.validatePlaylist(playlist.value);
+  updatePlaylist();
 }
 
 function play(music) {
@@ -78,9 +106,9 @@ function play(music) {
   router.push({
     name: "player",
     params: {
-      id: music.trackId
-    }
-  })
+      id: music.trackId,
+    },
+  });
 }
 
 function openSideMenu(music) {
@@ -93,20 +121,32 @@ function closeSidebar() {
 }
 
 async function removeFromPlaylist() {
-  await playlistService.removeTrackFromPlaylist(playlist.value, selectedMusic.value);
+  await playlistService.removeTrackFromPlaylist(
+    playlist.value,
+    selectedMusic.value
+  );
   updatePlaylist();
 
   closeSidebar();
 }
 
 function sortArtistName() {
-  playlist.value.tracks = sortByAlphabetical(playlist.value.tracks, "artistName");
+  playlist.value.tracks = sortByAlphabetical(
+    playlist.value.tracks,
+    "artistName"
+  );
 }
 function sortGenre() {
-  playlist.value.tracks = sortByAlphabeticalAccess(playlist.value.tracks, (track) => track.genres[0].name);
+  playlist.value.tracks = sortByAlphabeticalAccess(
+    playlist.value.tracks,
+    (track) => track.genres[0].name
+  );
 }
 function sortTrackName() {
-  playlist.value.tracks = sortByAlphabetical(playlist.value.tracks, "trackName");
+  playlist.value.tracks = sortByAlphabetical(
+    playlist.value.tracks,
+    "trackName"
+  );
 }
 
 function sortByAlphabetical(array, propertyPath) {
@@ -144,7 +184,7 @@ function sortByAlphabeticalAccess(array, access) {
 .sidebar {
   button {
     width: 100%;
-    margin: .25rem 0;
+    margin: 0.25rem 0;
   }
 }
 </style>

@@ -7,7 +7,7 @@ const controller = "api/Playlist";
 
 export default class PlaylistService extends ApiService {
   constructor() {
-    super(controller, playlistServiceKey, "https://localhost:7153");
+    super(controller, playlistServiceKey, document.env.VUE_APP_API_PLAYLIST_BASE_URL);
   }
 
   async getMyPlaylists() {
@@ -65,6 +65,11 @@ export default class PlaylistService extends ApiService {
 
   async getAvailablePlaylists(musicId) {
     const { data } = await this.get(`Trackless/${musicId}`);
+    return data;
+  }
+
+  async getRecommendations(tracks) {
+    const { data } = await this.post(`Recommendation/Dev`, tracks);
     return data;
   }
 }
