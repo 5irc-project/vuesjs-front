@@ -5,7 +5,14 @@ import { storeToRefs } from "pinia";
 import { useUserStore } from '@/store/modules/user';
 import { useNotificationStore } from '@/store/modules/notification';
 
-const socket = socketIO.connect(document.env.VUE_APP_NOTIFICATION_URL, {transports: ["websocket"]});
+const socketOptions = {
+  transports: ["websocket"]
+};
+if (document.env.VUE_APP_WEBSOCKET_PATH != "") {
+  socketOptions.path = process.env.VUE_APP_WEBSOCKET_PATH
+}
+
+const socket = socketIO.connect(document.env.VUE_APP_NOTIFICATION_URL, socketOptions);
 
 var hasConnected = false;
 

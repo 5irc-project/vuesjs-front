@@ -1,4 +1,4 @@
-#  Coexya/Sakai Admin Boilerplate for Vue  
+#  Vue Application  
  
 ### Live Preview
  
