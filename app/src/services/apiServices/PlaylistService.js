@@ -69,7 +69,7 @@ export default class PlaylistService extends ApiService {
   }
 
   async getRecommendations(tracks) {
-    const { data } = await this.post(`Recommendation/Dev`, tracks);
+    const { data } = await this.post(`Recommendation`, tracks);
     return data;
   }
 
