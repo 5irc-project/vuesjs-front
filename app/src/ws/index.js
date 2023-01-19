@@ -6,7 +6,6 @@ import { useUserStore } from '@/store/modules/user';
 import { useNotificationStore } from '@/store/modules/notification';
 
 const socketOptions = {
-  transports: ["websocket"]
 };
 if (document.env.VUE_APP_WEBSOCKET_PATH != "") {
   socketOptions.path = process.env.VUE_APP_WEBSOCKET_PATH
